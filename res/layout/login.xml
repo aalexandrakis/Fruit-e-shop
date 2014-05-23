@@ -1,0 +1,114 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/green"
+    android:fitsSystemWindows="true"
+    android:orientation="horizontal"
+    android:visibility="visible"
+    tools:context=".Login"
+    tools:ignore="ContentDescription" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/txtHeadItemId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/imageView1"
+        android:background="@color/black"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="35sp" />
+    
+    <TextView
+        android:id="@+id/txtEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/imageView1"
+        android:layout_marginRight="0dp"
+        android:text="@string/email"
+        android:textColor="@color/white" />
+
+    <EditText
+        android:id="@+id/editEmail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
+        android:layout_below="@+id/txtEmail"
+        android:inputType="textEmailAddress" />
+
+    <TextView
+        android:id="@+id/txtPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@id/editEmail"
+        android:layout_centerHorizontal="false"
+        android:layout_centerVertical="false"
+        android:text="@string/password"
+        android:textColor="@color/white" />
+
+    <EditText
+        android:id="@+id/editPassword"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtPassword"
+        android:inputType="textPassword"/>
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editPassword"
+        android:text="@string/remeber_password"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/checkBox1"
+        android:text="@string/connect" />
+
+    <TextView
+        android:id="@+id/lstItemCode"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/imageView1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="false"
+        android:layout_below="@+id/btnForgot" />
+
+    <Button
+        android:id="@+id/btnForgot"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/btnConnect"
+        android:text="@string/forgot" />
+     <Button
+        android:id="@+id/btnNewUser"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/btnForgot"
+        android:text="@string/NewUserHeader" />
+    
+    
+</RelativeLayout>

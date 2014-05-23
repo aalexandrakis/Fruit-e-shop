@@ -1,0 +1,11 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lstItemCode"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:textAlignment="center"
+    android:textColor="@color/white"
+    android:textColorHint="@color/black"
+    android:textColorLink="@color/white"
+    android:textSize="30sp" />
+

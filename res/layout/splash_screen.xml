@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@drawable/ic_launcher"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/green"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:visibility="visible"
+    tools:context=".Splash_screen"
+    tools:ignore="ContentDescription" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/txtCenter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/imageView1"
+        android:paddingTop="100dp"
+        android:text="@string/center_splash"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="45sp" />
+
+    <TextView
+        android:id="@+id/txtBottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/txtCenter"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/bottom_spalsh"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/txtHeadItemId"
+        android:layout_width="255dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView1"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:background="@color/black"
+        android:textSize="35sp" />
+
+</RelativeLayout>

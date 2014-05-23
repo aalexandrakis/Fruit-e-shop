@@ -1,0 +1,98 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/black" >
+
+    <TextView
+        android:id="@+id/txtHeadItemId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/Item_Code"
+        android:textColor="@color/yellow"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txtItemId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/txtItemId"
+        android:layout_toRightOf="@id/txtHeadItemId"
+        android:gravity="right"
+        android:textSize="20sp"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/txtHeadItemDescr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/txtHeadItemId"
+        android:text="@string/Item_Descr"
+        android:textSize="20sp"
+        android:textColor="@color/yellow" />
+
+    <TextView
+        android:id="@+id/txtItemDescr"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_below="@id/txtHeadItemDescr"
+        android:gravity="left"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <TextView android:id="@+id/txtHeadItemMm" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@id/txtItemDescr" android:text="@string/Item_Mm" android:textColor="@color/yellow" android:textSize="20sp" /><TextView android:id="@+id/txtItemMm" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_alignBaseline="@+id/txtHeadItemMm" android:layout_toRightOf="@+id/txtHeadItemMm" android:gravity="right" android:textColor="@color/white" android:textSize="20sp" /><TextView
+        android:id="@+id/txtHeadItemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/txtHeadItemMm"
+        android:textColor="@color/yellow"
+        android:textSize="20sp"
+        android:text="@string/Item_Price" />
+
+    <TextView
+        android:id="@+id/txtItemPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/txtHeadItemPrice"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:gravity="right"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_toRightOf="@id/txtHeadItemPrice" />
+
+    <TextView
+        android:id="@+id/txtHeadItemQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/txtHeadItemPrice"
+        android:textColor="@color/yellow"
+        android:textSize="20sp"
+        android:text="@string/Item_Quantity" />
+
+    <EditText
+        android:id="@+id/txtItemQuantity"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtHeadItemQuantity"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:selectAllOnFocus="true" >
+
+        <requestFocus />
+    </EditText>
+
+    
+
+    
+    
+</RelativeLayout>

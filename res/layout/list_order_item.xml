@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/green" >
+
+    <TextView
+        android:id="@+id/txtHeadOrderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/OrderId"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/txtOrderId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/txtOrderId"
+        android:layout_toRightOf="@id/txtHeadOrderId"
+        android:gravity="right"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/txtHeadOrderDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/txtHeadOrderId"
+        android:text="@string/OrderDate"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/txtOrderDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/txtHeadOrderDate"
+        android:layout_alignParentLeft="false"
+        android:layout_toRightOf="@id/txtHeadOrderDate"
+        android:gravity="right"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/txtHeadOrderAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/txtHeadOrderDate"
+        android:text="@string/OrderAmount"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/txtOrderAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/txtHeadOrderAmount"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentRight="false"
+        android:layout_toRightOf="@id/txtHeadOrderAmount"
+        android:gravity="right"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/txtHeadOrderStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/txtHeadOrderAmount"
+        android:text="@string/OrderStatus"
+        android:textColor="@color/white" />
+    
+    <TextView
+        android:id="@+id/txtOrderStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/txtHeadOrderStatus"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_toRightOf="@id/txtHeadOrderStatus"
+        android:gravity="right"
+        android:textColor="@color/white" />
+    
+</RelativeLayout>

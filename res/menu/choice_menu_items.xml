@@ -1,0 +1,10 @@
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:id="@+id/ViewMyCart" 
+              android:title="@string/ViewCart" 
+              android:icon="@drawable/cart_icon">
+        </item>
+        <item android:id="@+id/EmptyCart" 
+              android:title="@string/EmptyCart" 
+              android:icon="@drawable/recycle_bin">
+        </item>
+    </menu>

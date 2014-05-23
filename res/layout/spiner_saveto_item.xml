@@ -1,0 +1,10 @@
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/spinerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:gravity="right"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+    

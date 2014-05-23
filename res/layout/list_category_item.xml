@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/green" >
+
+    <TextView
+        android:id="@+id/txtHeadCategoryCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/white"
+        android:text="@string/Category_Code" />
+
+    <TextView
+        android:id="@+id/txtCategoryCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/txtCategoryCode"
+        android:layout_toRightOf="@id/txtHeadCategoryCode"
+        android:gravity="right"
+        android:textColor="@color/white" />
+    
+    <TextView
+        android:id="@+id/txtHeadCategoryDescr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/txtHeadCategoryCode"
+        android:text="@string/Category_Descr"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/txtCategoryDescr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/txtHeadCategoryDescr"
+        android:layout_alignParentLeft="false"
+        android:gravity="right"
+        android:textColor="@color/white"
+        android:layout_toRightOf="@id/txtHeadCategoryDescr" />
+    
+</RelativeLayout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Fruit-e-shop</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="header_splash">Fruit-e-shop</string>
+    <string name="center_splash">A.Alexandrakis</string>
+    <string name="bottom_spalsh">Please wait</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="remeber_password">Remember password</string>
+    <string name="connect">Connect</string>
+    <string name="String_ok">OK</string>
+    <string name="String_cancel">Cancel</string>
+    
+    
+    
+    <string name="Aboutus">About us</string>
+    <string name="contactus">Contact us</string>
+    <string name="neworder">Create new order</string>
+    <string name="vieworder">View your orders</string>
+    <string name="chgaccount">Change your user account</string>
+    <string name="chgsettings">Change settings</string>
+    <string name="mainmenu">Main Menu</string>
+    
+    <string name="phones">Τηλέφωνα</string>
+    <string name="phone_number">2107472461</string>
+    <string name="mobile_number">6948211181</string>
+    <string name="email_account">aalexandrakis@hotmail.com</string>
+    <string name="send_us_message">Στείλτε μας ένα μύνημα</string>
+    <string name="send">Αποστολή</string>
+    <string name="subject">Θέμα</string>
+    <string name="email_text">Κείμενο</string>
+    <string name="forgot">Forgot password</string>
+    
+    <string name="NewOrderHeader">New Order</string>
+    <string name="Category_Code">Code</string>
+    <string name="Category_Descr">Description</string>
+    
+    <string name="Item_Code">Code</string>
+    <string name="Item_Descr">Desription</string>
+    <string name="Item_Mm">Metric unit</string>
+    <string name="Item_Price">Price</string>
+    <string name="Item_Quantity">Selected Quantity</string>
+    <string name="Item_Summary">Item Summary</string>
+    
+    <string name="Select_Item_Header">Select an Item</string>
+
+    <string name="ViewCart">View Cart</string>
+    <string name="CartSummary">Cart Summary</string>
+    <string name="FinishOrder">Finish your Order</string>
+    <string name="RemoveFromCart">Remove From Cart</string>
+    
+    <string name="NewUserHeader">New User</string>
+    <string name="SignIn">Sign In</string>
+    <string name="Name">Your Name</string>
+    <string name="Address">Your Address</string>
+    <string name="City">Your City</string>
+    <string name="Phone">Your Phone</string>
+    <string name="Your_email">Your Email</string>
+    <string name="ConfirmPassword">Confirm Your Password</string>
+    <string name="UpdateUserHeader">Update User</string>
+    
+    <string name="YourOrders">Your Orders</string>
+    <string name="OrderId">Order Id</string>
+    <string name="OrderDate">Order Date</string>
+    <string name="OrderAmount">Order Amount</string>
+    <string name="OrderStatus">Order Status</string>
+    
+    <string name="EmptyCart">Empty your cart</string>
+    
+    <string name="showlocation">Display Location</string>
+    
+    <string name="Settings">Settings</string>
+    <string name="SaveSettings">Save Settings</string>
+    <string name="SaveToSdCard">Save to Sd card</string>
+    <string name="SaveToMemory">Save to Internal Memory</string>
+    
+    
+    
+    
+</resources>
