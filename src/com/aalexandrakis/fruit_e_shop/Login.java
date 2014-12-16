@@ -62,19 +62,16 @@ public class Login extends Activity  {
     public static String app_path="";
     
     
-	public static String Email = "";
-	public static Boolean RememberPassword = false;
+	public static Boolean rememberPassword = false;
 	
 	public ProgressDialog pg;
-	public ProgressDialog ChangePassPg;    
-	public GetHttpResponseAsync Async;
-	public ForgotPassword ForgotPasswordAsync;
+	public ProgressDialog changePassPg;
+	public postHttpResponseAsync async;
+	public ForgotPassword forgotPasswordAsync;
     
-	Login LoginActivity=this;
     Button btnConnect;
     Button btnForgot;
     Button btnNewUser;
-    AlertDialog errorInput;
 	TextView editEmail;
     TextView editPassword;
     CheckBox RememberPass;
@@ -85,13 +82,13 @@ public class Login extends Activity  {
     
      
     protected void onPause() {
-    	if (Async != null &&
-    		Async.getStatus() != AsyncTask.Status.FINISHED){
-    	       Async.cancel(true);
+    	if (async != null &&
+    		async.getStatus() != AsyncTask.Status.FINISHED){
+    	       async.cancel(true);
     	}
-    	if (ForgotPasswordAsync != null &&
-    		ForgotPasswordAsync.getStatus() != AsyncTask.Status.FINISHED){
-    	      ForgotPasswordAsync.cancel(true);
+    	if (forgotPasswordAsync != null &&
+    		forgotPasswordAsync.getStatus() != AsyncTask.Status.FINISHED){
+    	      forgotPasswordAsync.cancel(true);
     	}      
     	super.onPause();
     }
@@ -107,9 +104,9 @@ public class Login extends Activity  {
 	   pg.setTitle("Loging in");
 	   pg.setMessage("Wait to confirm login information");
 	
-	   ChangePassPg = new ProgressDialog(this);
-	   ChangePassPg.setTitle("Forgot Password");
-	   ChangePassPg.setMessage("Wait to re-new your password");
+	   changePassPg = new ProgressDialog(this);
+	   changePassPg.setTitle("Forgot Password");
+	   changePassPg.setMessage("Wait to re-new your password");
 	
 	   editEmail = (TextView) findViewById(R.id.editEmail);
        editPassword = (TextView) findViewById(R.id.editPassword);
@@ -118,7 +115,9 @@ public class Login extends Activity  {
 	   btnForgot = (Button) findViewById(R.id.btnForgot);
 	   btnNewUser = (Button) findViewById(R.id.btnNewUser);
 	   getSharedPreferenses();
-	   
+
+	   editEmail.setText("aalexandrakis@hotmail.com");
+	   editPassword.setText("b12021982");
 	   if (settings.getString("SaveTo", getResources().getString(R.string.SaveToMemory)).equals(
 		   getResources().getString(R.string.SaveToMemory))){
 		  		Login.app_path = getFilesDir().toString();
@@ -158,12 +157,12 @@ public class Login extends Activity  {
     	}
 	
     	
-   public void LoginRoutine(String HttpResp) {
- 		   if (HttpResp.startsWith("1")) {
+   public void LoginRoutine(JSONObject jsonCust) {
+ 		   if (jsonCust.optString("email") != "") {
    		     SharedPreferences.Editor prefEditor = settings.edit();
    	         prefEditor.putString("Email", email);
    	         prefEditor.putString("Password", password);
-   	         prefEditor.putBoolean("Remember", RememberPassword);
+   	         prefEditor.putBoolean("Remember", rememberPassword);
    	         prefEditor.putString("SaveTo", getResources().getString(R.string.SaveToMemory));
    	         prefEditor.commit();
    	         
@@ -183,7 +182,7 @@ public class Login extends Activity  {
 		    ConnectivityManager conMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 		    return conMgr.getActiveNetworkInfo().isConnected();
 		}
-		catch (java.lang.NullPointerException ex) 
+		catch (java.lang.NullPointerException ex)
 		{
 			return false;
 		}
@@ -208,7 +207,7 @@ public class Login extends Activity  {
     		if (settings.contains("Remember")){
     			email=settings.getString("Email", email);
       	        password=settings.getString("Password", password);
-      		    RememberPassword = settings.getBoolean("Remember", RememberPassword);
+      		    rememberPassword = settings.getBoolean("Remember", rememberPassword);
                 autoFill();
     		}
     	    } catch (ClassCastException CCE) {
@@ -217,17 +216,17 @@ public class Login extends Activity  {
     }
     
     protected void autoFill(){
-    	if (RememberPassword){
+    	if (rememberPassword){
     		editEmail.setText(email);
     		editPassword.setText(password);
-    		RememberPass.setChecked(RememberPassword);
+    		RememberPass.setChecked(rememberPassword);
     	}
     }
     
     protected void Login_routine() {
 	       email=editEmail.getText().toString();
 	       password=editPassword.getText().toString();
-		   RememberPassword = (Boolean) RememberPass.isChecked();
+		   rememberPassword = (Boolean) RememberPass.isChecked();
 		   
            if (email.length()==0){
       	      ShowAlertDialog("Missing Information", "Username or pasword not valid"); 
@@ -250,16 +249,16 @@ public class Login extends Activity  {
       	      
           } 
          if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-        	 Async = (GetHttpResponseAsync) new GetHttpResponseAsync(this).execute(Commons.URL + "login", email, password);
+        	 async = (postHttpResponseAsync) new postHttpResponseAsync(this).execute(Commons.URL + "/login", email, password);
          } else {
-        	 Async = (GetHttpResponseAsync) new GetHttpResponseAsync(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Commons.URL + "login", email, password);
+        	 async = (postHttpResponseAsync) new postHttpResponseAsync(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Commons.URL + "/login", email, password);
          }
      }
 	
     protected void forgot_Password() {
 		 email=editEmail.getText().toString();
 	     password=editPassword.getText().toString();
-		 RememberPassword = (Boolean) RememberPass.isChecked();
+		 rememberPassword = (Boolean) RememberPass.isChecked();
 		 
          if (checkConnectivity()==false){
       	  ShowAlertDialog("Connectivity Error", "No Internet Connection"); 
@@ -271,7 +270,7 @@ public class Login extends Activity  {
          }
 		List<NameValuePair> params_forgot = new ArrayList<NameValuePair>();
 	      params_forgot.add(new BasicNameValuePair("email", email));
-	    ForgotPasswordAsync = (ForgotPassword) new ForgotPassword(this).execute(url_forgot, email);
+	    forgotPasswordAsync = (ForgotPassword) new ForgotPassword(this).execute(url_forgot, email);
 	 }
     
     public Float GetMyCartSummary(){
@@ -320,16 +319,16 @@ public class Login extends Activity  {
 }
 
 
-class GetHttpResponseAsync extends AsyncTask<String, String, String>{
+class postHttpResponseAsync extends AsyncTask<String, JSONObject, JSONObject>{
     private Login ThisActivity;
    
-	GetHttpResponseAsync(Login a){
+	postHttpResponseAsync(Login a){
     	ThisActivity = a;
     }
 	
 	@Override
-	protected String doInBackground(String... arg0) {
-		String rtnString = "";
+	protected JSONObject doInBackground(String... arg0) {
+		JSONObject jsonCust = new JSONObject();
 		HttpClient httpClient = new DefaultHttpClient();
         HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 10000);
         HttpConnectionParams.setSoTimeout(httpClient.getParams(), 10000);
@@ -338,7 +337,7 @@ class GetHttpResponseAsync extends AsyncTask<String, String, String>{
      // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("email", arg0[1]));
-	        params.add(new BasicNameValuePair("password", arg0[2]));
+	        params.add(new BasicNameValuePair("password", Commons.encryptPassword(arg0[2])));
 	    Log.d("List", "NameValuePair");    
         try {
 		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -352,20 +351,20 @@ class GetHttpResponseAsync extends AsyncTask<String, String, String>{
 			
 			BufferedReader br = null;
 			br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			rtnString = "";
+			String rtnString = "";
 			String line = br.readLine();
 			while (line != null){
 				rtnString += line;
 				line = br.readLine();
 			}
-			JSONObject jsonCust = new JSONObject(rtnString);
+			br.close();
+			jsonCust = new JSONObject(rtnString);
 			if (jsonCust.optString("email") != ""){
 				GetAllCategories();
 				GetAllProducts();
 				GetAllOrders();
 				GetAllOrderedItems();
 			}
-			br.close();
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -384,19 +383,18 @@ class GetHttpResponseAsync extends AsyncTask<String, String, String>{
 			e.printStackTrace();
 			Log.d("UEE", e.getMessage());
 	    }
-		Log.d("ReturnValue", rtnString);
-		return  rtnString.trim();
+		return  jsonCust;
 	}
 	
 	protected void onPreExecute() {
 		ThisActivity.pg.show();
 
 	}
-	protected void onPostExecute(String RtnString) {
+	protected void onPostExecute(JSONObject jsonCust) {
 		Log.d("SaveTo", ThisActivity.settings.getString("SaveTo", ThisActivity.getResources().getString(R.string.SaveToMemory)));
 
 		ThisActivity.pg.dismiss();
-  		ThisActivity.LoginRoutine(RtnString);
+  		ThisActivity.LoginRoutine(jsonCust);
   		
   		try {
 			this.finalize();
@@ -798,10 +796,10 @@ class ForgotPassword extends AsyncTask<String, String, String>{
 	}
 	
 	protected void onPreExecute() {
-		ThisActivity.ChangePassPg.show();
+		ThisActivity.changePassPg.show();
 	}
 	protected void onPostExecute(String RtnString) {
-		ThisActivity.ChangePassPg.dismiss();
+		ThisActivity.changePassPg.dismiss();
   		try {
 			this.finalize();
 		} catch (Throwable e) {
