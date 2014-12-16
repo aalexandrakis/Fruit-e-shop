@@ -26,6 +26,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.*;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -45,7 +48,6 @@ public class Login extends Activity  {
 	//private static final String url_forgot = "http://10.0.2.2/android-fruit-e-shop/androidForgotPassword.php";
 	//public static final String url_getCategories = "http://10.0.2.2/android-fruit-e-shop/androidSelectCategoryXML.php";
 	//public static final String url_Contactus="http://10.0.2.2/android-fruit-e-shop/androidLogin.php";
-	public static final String url_login = "http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidLogin.php";
 	public static final String url_forgot = "http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidforgotpassword.php";
 	public static final String url_getCategories = "http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidSelectCategoryXML.php";
     public static final String url_Contactus="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidcontactus.php";
@@ -248,9 +250,9 @@ public class Login extends Activity  {
       	      
           } 
          if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-        	 Async = (GetHttpResponseAsync) new GetHttpResponseAsync(this).execute(url_login, email, password);
+        	 Async = (GetHttpResponseAsync) new GetHttpResponseAsync(this).execute(Commons.URL + "login", email, password);
          } else {
-        	 Async = (GetHttpResponseAsync) new GetHttpResponseAsync(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url_login, email, password);
+        	 Async = (GetHttpResponseAsync) new GetHttpResponseAsync(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Commons.URL + "login", email, password);
          }
      }
 	
@@ -327,41 +329,37 @@ class GetHttpResponseAsync extends AsyncTask<String, String, String>{
 	
 	@Override
 	protected String doInBackground(String... arg0) {
-		//String url_str = "http://" + arg0[3] + arg0[0];
-		String url_str = arg0[0];
-		Log.d("url", url_str);
-		String username = arg0[1];
-		Log.d("username", username);
-		String password = arg0[2];
-		Log.d("password", password);
 		String rtnString = "";
 		HttpClient httpClient = new DefaultHttpClient();
         HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 10000);
         HttpConnectionParams.setSoTimeout(httpClient.getParams(), 10000);
-        HttpPost httpPost = new HttpPost(url_str);
+        HttpPost httpPost = new HttpPost(arg0[0]);
         Log.d("HttpPost", "New HttpPost");
      // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("username", username));    
-	        params.add(new BasicNameValuePair("password", password));
+            params.add(new BasicNameValuePair("email", arg0[1]));
+	        params.add(new BasicNameValuePair("password", arg0[2]));
 	    Log.d("List", "NameValuePair");    
         try {
 		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-	    httpPost.setHeader("Host", "aalexandrakis.freevar.com");
-		entity.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
+	    entity.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
 		entity.setContentEncoding("UTF-8");
 		entity.setChunked(true);
 	    httpPost.setEntity(entity);
 	    HttpResponse response;
-	    Log.d("response", "httpresponse");
-		try {
+	    try {
 			response = httpClient.execute(httpPost);
 			
 			BufferedReader br = null;
 			br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			rtnString = (String) br.readLine();
-			Log.d("ReadLine", "rtnString");
-			if (rtnString.equals("1")){
+			rtnString = "";
+			String line = br.readLine();
+			while (line != null){
+				rtnString += line;
+				line = br.readLine();
+			}
+			JSONObject jsonCust = new JSONObject(rtnString);
+			if (jsonCust.optString("email") != ""){
 				GetAllCategories();
 				GetAllProducts();
 				GetAllOrders();
@@ -376,8 +374,10 @@ class GetHttpResponseAsync extends AsyncTask<String, String, String>{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Log.d("IOE", e.getMessage());
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
-	    
+
 		}
         catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
