@@ -270,7 +270,7 @@ public class Login extends Activity  {
          }
 		List<NameValuePair> params_forgot = new ArrayList<NameValuePair>();
 	      params_forgot.add(new BasicNameValuePair("email", email));
-	    forgotPasswordAsync = (ForgotPassword) new ForgotPassword(this).execute(url_forgot, email);
+	    forgotPasswordAsync = (ForgotPassword) new ForgotPassword(this).execute(Commons.URL + "/resetPassword" , email);
 	 }
     
     public Float GetMyCartSummary(){
@@ -402,7 +402,7 @@ class postHttpResponseAsync extends AsyncTask<String, JSONObject, JSONObject>{
 }
 
 
-class ForgotPassword extends AsyncTask<String, String, String>{
+class ForgotPassword extends AsyncTask<String, JSONObject, JSONObject>{
     private Login ThisActivity;
    
 	ForgotPassword(Login a){
@@ -410,7 +410,7 @@ class ForgotPassword extends AsyncTask<String, String, String>{
     }
 	
 	@Override
-	protected String doInBackground(String... arg0) {
+	protected JSONObject doInBackground(String... arg0) {
 		//String url_str = "http://" + arg0[3] + arg0[0];
 		String url_str = arg0[0];
 		Log.d("url", url_str);
@@ -434,15 +434,18 @@ class ForgotPassword extends AsyncTask<String, String, String>{
 		entity.setChunked(true);
 	    httpPost.setEntity(entity);
 	    HttpResponse response;
-	    Log.d("response", "httpresponse");
 		try {
 			response = httpClient.execute(httpPost);
 			
 			BufferedReader br = null;
 			br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			rtnString = (String) br.readLine();
-			Log.d("ReadLine", "rtnString");
+
+			String str = br.readLine();
+			while(str != null){
+				rtnString += str;
+			}
 			br.close();
+			return new JSONObject(rtnString);
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -451,22 +454,23 @@ class ForgotPassword extends AsyncTask<String, String, String>{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Log.d("IOE", e.getMessage());
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
-	    
+
 		}
         catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Log.d("UEE", e.getMessage());
 	    }
-		Log.d("ReturnValue", rtnString);
-		return  rtnString.trim();
+		return  null;
 	}
 	
 	protected void onPreExecute() {
 		ThisActivity.changePassPg.show();
 	}
-	protected void onPostExecute(String RtnString) {
+	protected void onPostExecute(JSONObject json) {
 		ThisActivity.changePassPg.dismiss();
   		try {
 			this.finalize();
@@ -474,18 +478,8 @@ class ForgotPassword extends AsyncTask<String, String, String>{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-  		if (RtnString.startsWith("0")){
-  			ThisActivity.ShowAlertDialog("Password change failed", "Please try later");
-	    }
-	    if (RtnString.startsWith("1")){
-	    	ThisActivity.ShowAlertDialog("Password change failed", "Your email not found to our database");
-	    }
-	    if (RtnString.startsWith("2")){
-	    	ThisActivity.ShowAlertDialog("Password change failed", "Please try later.Problem with the email");
-	    }
-	    if (RtnString.startsWith("3")){
-	    	ThisActivity.ShowAlertDialog("Password Changed", "New password was sent to your email");
-	    }
+
+		ThisActivity.ShowAlertDialog(json.optString("status"), json.optString("message"));
 
   		
 	}
