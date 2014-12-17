@@ -431,14 +431,6 @@ class postHttpResponseAsync extends AsyncTask<String, JSONObject, JSONObject>{
 						fileToDelete = new File(ThisActivity.getFilesDir().toString()+"/Categories.xml");
 						fileToDelete.delete();
 						
-						//final File dir = new File(Environment.getExternalStorageDirectory().toString()+ThisActivity.app_path);
-						//if (dir.isDirectory()==false){
-						//	dir.mkdir();
-						//}
-						//if (file.exists()){
-						//	file.delete();
-						//	Log.d("File deleted", file.toString());
-						//}
 						file.createNewFile();
 						Log.d("File created", file.toString());
 
@@ -501,14 +493,6 @@ class postHttpResponseAsync extends AsyncTask<String, JSONObject, JSONObject>{
 						fileToDelete = new File(ThisActivity.getFilesDir().toString()+"/Products.xml");
 						fileToDelete.delete();
 						
-						//final File dir = new File(Environment.getExternalStorageDirectory().toString()+ThisActivity.app_path);
-						//if (dir.isDirectory()==false){
-						//	dir.mkdir();
-						//}
-						//if (file.exists()){
-						//	file.delete();
-						//	Log.d("File deleted", file.toString());
-						//}
 						file.createNewFile();
 						Log.d("File created", file.toString());
 
@@ -543,21 +527,6 @@ class postHttpResponseAsync extends AsyncTask<String, JSONObject, JSONObject>{
 	    
 
 	}
-	
-	//private void createAndroidDataDir(){
-	//	File dirAndroid = new File(Environment.getExternalStorageDirectory().toString()+"/Android");
-	//	if (dirAndroid.isDirectory()==false){
-	//		if (!dirAndroid.mkdir()){
-	//			Log.d("Android directory not created", dirAndroid.toString());
-	//		}
-	//	}
-	//	File dirData = new File(Environment.getExternalStorageDirectory().toString()+"/Android/data");
-	//	if (dirData.isDirectory()==false){
-	//		if(!dirData.mkdir()){
-	//			Log.d("Data directory not created", dirData.toString());
-	//		}
-	//	}
-	//}
 	
 	protected void GetAllOrders(){
 		HttpClient httpClient = new DefaultHttpClient();
@@ -601,14 +570,6 @@ class postHttpResponseAsync extends AsyncTask<String, JSONObject, JSONObject>{
 					fileToDelete = new File(ThisActivity.getFilesDir().toString()+"/Orders.xml");
 					fileToDelete.delete();
 					
-					//final File dir = new File(Environment.getExternalStorageDirectory().toString()+ThisActivity.app_path);
-					//if (dir.isDirectory()==false){
-					//	dir.mkdir();
-					//}
-					//if (file.exists()){
-					//	file.delete();
-					//	Log.d("File deleted", file.toString());
-					//}
 					file.createNewFile();
 					Log.d("File created", file.toString());
 
@@ -686,14 +647,6 @@ class postHttpResponseAsync extends AsyncTask<String, JSONObject, JSONObject>{
 					fileToDelete = new File(ThisActivity.getFilesDir().toString()+"/OrderedItems.xml");
 					fileToDelete.delete();
 					
-					//final File dir = new File(Environment.getExternalStorageDirectory().toString()+ThisActivity.app_path);
-					//if (dir.isDirectory()==false){
-					//	dir.mkdir();
-					//}
-					//if (file.exists()){
-					//	file.delete();
-					//	Log.d("File deleted", file.toString());
-					//}
 					file.createNewFile();
 					Log.d("File created", file.toString());
 
