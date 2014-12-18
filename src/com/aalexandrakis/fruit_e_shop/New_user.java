@@ -17,6 +17,9 @@ import android.view.View;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.widget.*;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,22 +37,10 @@ public class New_user extends Login  {
 	EditText edtEmail;
 	EditText edtPassword;
 	EditText edtConfPassword;
-	
-	String strName;
-	String strAddress;
-	String strPhone;
-	String strCity;
-	String strEmail;
-	String strPassword;
-	String strConfPassword;
+
 	New_user NewUserActivity = this;
 	
     protected void onPause() {
-    	//if (SingInAsync != null &&
-    	//	SingInAsync.getStatus() != SingInAsyncTask.Status.FINISHED){
-    	//      SingInAsync.cancel(true);
-    	//}
-          
     	super.onPause();
     }
     
@@ -79,46 +70,37 @@ public class New_user extends Login  {
    	       @Override
            public void onClick(View arg0) {
 		        if (ValidateRoutine()){
-		           GetHttpResponseSingInAsync SignInTask = new GetHttpResponseSingInAsync(NewUserActivity);
-		           SignInTask.execute(url_NewUser, 
+		           PostHttpResponseSingInAsync SignInTask = new PostHttpResponseSingInAsync(NewUserActivity);
+		           SignInTask.execute(Commons.URL + "/register",
 		        		              edtName.getText().toString(),
 		        		              edtAddress.getText().toString(),
 		        		              edtCity.getText().toString(),
 		        		              edtPhone.getText().toString(),
 		        		              edtEmail.getText().toString(),
-		        		              edtPassword.getText().toString());
+		        		              Commons.encryptPassword(edtPassword.getText().toString()));
 		        }
    	       }
  	      });
     	}
 	
     	
-   public void SignInRoutine(String HttpResp) {
+   public void SignInRoutine(JSONObject json) {
 	      
- 		  if (HttpResp.startsWith("1")) {
- 			  Log.i("ServerResponse", HttpResp);
-   	          Toast.makeText(getApplicationContext(), edtName.getText().toString() + " you have successfully sign in. Pleas try to log in", Toast.LENGTH_LONG).show();
-   		      Intent openstartingpoint=new Intent("com.aalexandrakis.fruit_e_shop.Login");
-   	 	      startActivity(openstartingpoint);
-   	 	      finish();
-   		   } 
- 		   else if (HttpResp.startsWith("2")) {
- 			   Log.i("ServerResponse", HttpResp);
- 			   ShowAlertDialog("Error sign in information", "Email already exists");
-  	 	   } else {
-  	 		   Log.i("ServerResponse", HttpResp);
- 		       ShowAlertDialog("Sign in error", "Please try later"); 
-           }
-
+ 		  if (json.optString("status").equals("FAILED")) {
+			  ShowAlertDialog(json.optString("status"), json.optString("message"));
+		  } else {
+			  Toast.makeText(getApplicationContext(), edtName.getText().toString() + " you have successfully sign in.", Toast.LENGTH_LONG).show();
+			  Intent openstartingpoint=new Intent("com.aalexandrakis.fruit_e_shop.Login");
+			  startActivity(openstartingpoint);
+			  finish();
+		  }
    }
 	
 	
     
     protected boolean ValidateRoutine() {
-    	Log.i("Validate", "OK");
 	       if (checkConnectivity()==false){
-	    	   Log.i("ShowAlert", "OK");
-      	       ShowAlertDialog("Connectivity Error", "No Internet Connection"); 
+      	       ShowAlertDialog("Connectivity Error", "No Internet Connection");
                return false;
            }
           if (edtName.length()==0){
@@ -169,15 +151,15 @@ public class New_user extends Login  {
 }
 
 
-class GetHttpResponseSingInAsync extends AsyncTask<String, String, String>{
+class PostHttpResponseSingInAsync extends AsyncTask<String, JSONObject, JSONObject>{
     public New_user SingInAsync;
    
-	GetHttpResponseSingInAsync(New_user a){
+	PostHttpResponseSingInAsync(New_user a){
     	SingInAsync = a;
     }
 	
 	@Override
-	protected String doInBackground(String... arg0) {
+	protected JSONObject doInBackground(String... arg0) {
 		//String url_str = "http://" + arg0[3] + arg0[0];
 		String url_str = arg0[0];
 		String name = arg0[1];
@@ -216,9 +198,15 @@ class GetHttpResponseSingInAsync extends AsyncTask<String, String, String>{
 			
 			BufferedReader br = null;
 			br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			rtnString = (String) br.readLine();
-			Log.i("ReadLine", "rtnString");
+			String line = br.readLine();
+			while(line != null){
+				rtnString = line;
+			}
 			br.close();
+			return new JSONObject(rtnString);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -235,16 +223,15 @@ class GetHttpResponseSingInAsync extends AsyncTask<String, String, String>{
 			e.printStackTrace();
 			Log.i("UEE", e.getMessage());
 	    }
-		Log.i("ReturnValue", rtnString);
-		return  rtnString.trim();
+		return  null;
 	}
 	
 	protected void onPreExecute() {
 		SingInAsync.pg.show();
 	}
-	protected void onPostExecute(String RtnString) {
+	protected void onPostExecute(JSONObject json) {
 		SingInAsync.pg.dismiss();
-  		SingInAsync.SignInRoutine(RtnString);
+  		SingInAsync.SignInRoutine(json);
   		try {
 			this.finalize();
 		} catch (Throwable e) {
