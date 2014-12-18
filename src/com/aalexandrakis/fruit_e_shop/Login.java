@@ -443,6 +443,7 @@ class ForgotPassword extends AsyncTask<String, JSONObject, JSONObject>{
 			String str = br.readLine();
 			while(str != null){
 				rtnString += str;
+				str = br.readLine();
 			}
 			br.close();
 			return new JSONObject(rtnString);
