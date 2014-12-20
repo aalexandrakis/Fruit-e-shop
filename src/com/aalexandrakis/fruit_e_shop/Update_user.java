@@ -85,10 +85,6 @@ public class Update_user extends Login  {
 	   idString = String.valueOf(settings.getInt("Id", 0));
 	   btnSignIn = (Button) findViewById(R.id.btnSignIn);
 
-
-		//for test only
-	   edtPassword.setText(settings.getString("Password", ""));
-
 	   btnSignIn.setText("Update");
 //	   btnSignIn.setEnabled(false);
 
