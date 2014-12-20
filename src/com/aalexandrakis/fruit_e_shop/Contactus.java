@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +18,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +31,7 @@ import java.util.List;
 
 
 
-public class Contactus extends Login  {
+public class ContactUs extends Login  {
     Button btnSend;
     EditText editSenderEmail;
     EditText editSubject;
@@ -38,7 +39,7 @@ public class Contactus extends Login  {
     
     public ProgressDialog ContactUsPg;
     public ContactUsAsyncTask ContactUsAsync;
-    public Contactus THISACTIVITY=this;
+    public ContactUs THISACTIVITY=this;
     
     SharedPreferences settings;
     protected void onPause() {
@@ -96,82 +97,75 @@ public class Contactus extends Login  {
    	     ShowAlertDialog("Missing Information", "Email text is missing"); 
          return;
      }
-     ContactUsAsync = (ContactUsAsyncTask) new ContactUsAsyncTask(THISACTIVITY).execute(url_Contactus, editSenderEmail.getText().toString(), editSubject.getText().toString(), editEmailText.getText().toString());
+     ContactUsAsync = (ContactUsAsyncTask) new ContactUsAsyncTask(THISACTIVITY).execute(Commons.URL + "/contactUs", editSenderEmail.getText().toString(), editSubject.getText().toString(), editEmailText.getText().toString());
     }    
  }
 
 
-class ContactUsAsyncTask extends AsyncTask<String, String, String>{
-    public Contactus MainClass;
+class ContactUsAsyncTask extends AsyncTask<String, JSONObject, JSONObject>{
+    public ContactUs MainClass;
    
-	ContactUsAsyncTask(Contactus a){
+	ContactUsAsyncTask(ContactUs a){
     	MainClass = a;
     }
 	
 	@Override
-	protected String doInBackground(String... arg0) {
+	protected JSONObject doInBackground(String... arg0) {
 		//String url_str = "http://" + arg0[3] + arg0[0];
+		JSONObject jsonResponse = new JSONObject();
 		String url_str = arg0[0];
-		Log.i("url", url_str);
-		String subject = arg0[1];
-		Log.i("subject", subject);
-		String mail = arg0[2];
-		Log.i("mail", mail);
-		String yoursmail = arg0[3];
-		Log.i("yoursemail", yoursmail);
-		String rtnString = "";
+		StringBuilder rtnString = new StringBuilder();
 		HttpClient httpClient = new DefaultHttpClient();
         HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 30000);
         HttpConnectionParams.setSoTimeout(httpClient.getParams(), 30000);
         HttpPost httpPost = new HttpPost(url_str);
-        Log.i("HttpPost", "New HttpPost");
      // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-           params.add(new BasicNameValuePair("subject", subject));
-           params.add(new BasicNameValuePair("mail", mail));
-           params.add(new BasicNameValuePair("yoursmail", yoursmail));
-	    Log.i("List", "NameValuePair");    
+		params.add(new BasicNameValuePair("email", arg0[1]));
+		params.add(new BasicNameValuePair("subject", arg0[2]));
+		params.add(new BasicNameValuePair("content", arg0[3]));
         try {
-		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-	    httpPost.setHeader("Host", "aalexandrakis.freevar.com");
-		entity.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
-		entity.setContentEncoding("UTF-8");
-		entity.setChunked(true);
-	    httpPost.setEntity(entity);
-	    HttpResponse response;
-	    Log.i("response", "httpresponse");
-		try {
+			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+			entity.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
+			entity.setContentEncoding("UTF-8");
+			entity.setChunked(true);
+			httpPost.setEntity(entity);
+			HttpResponse response;
+
 			response = httpClient.execute(httpPost);
-			
+
 			BufferedReader br = null;
 			br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			rtnString = (String) br.readLine();
-			Log.i("ReadLine", "rtnString");
+			String line = null;
+			while ((line = br.readLine()) != null){
+				rtnString.append(line);
+			}
+			jsonResponse = new JSONObject(rtnString.toString());
 			br.close();
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.i("CPE", e.getMessage());
+			jsonResponse = null;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			jsonResponse = null;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.i("IOE", e.getMessage());
-		}
-	    
-		}
-        catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+			jsonResponse = null;
+		} catch (JSONException e) {
 			e.printStackTrace();
-			Log.i("UEE", e.getMessage());
-	    }
-		Log.i("ReturnValue", rtnString);
-		return  rtnString.trim();
+			jsonResponse = null;
+		} finally {
+			return jsonResponse;
+		}
 	}
 	
 	protected void onPreExecute() {
 		MainClass.ContactUsPg.show();
 	}
-	protected void onPostExecute(String RtnString) {
+	protected void onPostExecute(JSONObject jsonResponse) {
 		MainClass.ContactUsPg.dismiss();
   		try {
 			this.finalize();
@@ -179,13 +173,12 @@ class ContactUsAsyncTask extends AsyncTask<String, String, String>{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-  		if (RtnString.startsWith("0")){
-  			MainClass.ShowAlertDialog("Message Send Failure", "Please try later");
-	    }
-	    if (RtnString.startsWith("1")){
-	    	MainClass.ShowAlertDialog("Message Send Successfully", "We are going to contact with you as soon as possible");
-	    }
-	    
-  		
+		if (jsonResponse != null && jsonResponse.optString("status").equals("SUCCESS")){
+			MainClass.ShowAlertDialog(jsonResponse.optString("status"), jsonResponse.optString("message"));
+		} else if (jsonResponse != null) {
+			MainClass.ShowAlertDialog(jsonResponse.optString("status"), jsonResponse.optString("message"));
+		} else {
+			MainClass.ShowAlertDialog("FAILED", "Please try later");
+		}
 	}
 }

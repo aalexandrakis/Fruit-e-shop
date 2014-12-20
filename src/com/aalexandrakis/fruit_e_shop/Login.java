@@ -42,10 +42,7 @@ public class Login extends Activity  {
 	public static final String MYCART = "MyCart" ;
 	public static ArrayList<Item> MyCartArray = new ArrayList<Item>();
 	public static final String url_getCategories = "http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidSelectCategoryXML.php";
-    public static final String url_Contactus="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidcontactus.php";
     public static final String url_Products="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidSelectProductsXML.php";
-    public static final String url_UpdateUser="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidUpdateUser.php";
-    public static final String url_GetUserInfo="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidGetUserInfo.php";
     public static final String url_GetOrders="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidGetOrders.php";
     public static final String url_CreateOrder="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidCreateOrder.php";
     public static final String url_GetOrderedItems="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidGetOrderedItems.php";

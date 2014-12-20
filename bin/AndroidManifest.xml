@@ -47,7 +47,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:theme="@style/FullscreenTheme" android:name="com.aalexandrakis.fruit_e_shop.Contactus" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
+        <activity android:theme="@style/FullscreenTheme" android:name=".ContactUs" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.aalexandrakis.fruit_e_shop.Contactus"/>
                 <category android:name="android.intent.category.DEFAULT"/>
