@@ -1,10 +1,23 @@
 package com.aalexandrakis.fruit_e_shop;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.TextView;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -16,26 +29,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
-import android.util.Log;
-import android.view.View;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.widget.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressLint("NewApi")
 public class Login extends Activity  {
@@ -107,9 +106,7 @@ public class Login extends Activity  {
 	   btnNewUser = (Button) findViewById(R.id.btnNewUser);
 	   getSharedPreferenses();
 
-	   editEmail.setText("aalexandrakis@hotmail.com");
-	   editPassword.setText("b12021982");
-	   if (settings.getString("SaveTo", getResources().getString(R.string.SaveToMemory)).equals(
+	    if (settings.getString("SaveTo", getResources().getString(R.string.SaveToMemory)).equals(
 		   getResources().getString(R.string.SaveToMemory))){
 		  		Login.app_path = getFilesDir().toString();
 	   } else {
@@ -151,7 +148,12 @@ public class Login extends Activity  {
    public void LoginRoutine(JSONObject jsonCust) {
  		   if (jsonCust.optString("email") != "") {
    		     SharedPreferences.Editor prefEditor = settings.edit();
+   	         prefEditor.putInt("Id", jsonCust.optInt("id"));
    	         prefEditor.putString("Email", email);
+   	         prefEditor.putString("Name", jsonCust.optString("name"));
+		     prefEditor.putString("Address", jsonCust.optString("address"));
+		     prefEditor.putString("Phone", jsonCust.optString("phone"));
+		     prefEditor.putString("City", jsonCust.optString("city"));
    	         prefEditor.putString("Password", password);
    	         prefEditor.putBoolean("Remember", rememberPassword);
    	         prefEditor.putString("SaveTo", getResources().getString(R.string.SaveToMemory));
