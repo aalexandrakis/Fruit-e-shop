@@ -1,27 +1,5 @@
 package com.aalexandrakis.fruit_e_shop;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -35,6 +13,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 @SuppressLint("NewApi")
 public class New_order extends Login {
@@ -129,8 +120,8 @@ class GetCategories extends AsyncTask<String, ArrayList<Category>, ArrayList<Cat
 		//get xml from internet or local storage
 		if (mainActivity.checkConnectivity()){
 			HttpClient httpClient = new DefaultHttpClient();
-	        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 10000);
-	        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 10000);
+	        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 30000);
+	        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 30000);
 	        HttpPost httpPost = new HttpPost(url);  
 	        HttpResponse response;
 			try {

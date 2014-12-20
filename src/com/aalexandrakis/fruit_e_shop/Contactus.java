@@ -1,14 +1,14 @@
 package com.aalexandrakis.fruit_e_shop;
 
 
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -20,14 +20,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 
-import android.app.ProgressDialog;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -123,8 +121,8 @@ class ContactUsAsyncTask extends AsyncTask<String, String, String>{
 		Log.i("yoursemail", yoursmail);
 		String rtnString = "";
 		HttpClient httpClient = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 10000);
-        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 10000);
+        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 30000);
+        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 30000);
         HttpPost httpPost = new HttpPost(url_str);
         Log.i("HttpPost", "New HttpPost");
      // Building Parameters
