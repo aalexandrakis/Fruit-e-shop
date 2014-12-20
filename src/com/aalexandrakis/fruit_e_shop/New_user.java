@@ -63,24 +63,32 @@ public class New_user extends Login  {
 	   edtPassword= (EditText) findViewById(R.id.edtPassword);
 	   edtConfPassword= (EditText) findViewById(R.id.edtConfPassword);
 	   btnSignIn = (Button) findViewById(R.id.btnSignIn);
-	   
-	   
+
+			//TEST
+			edtName.setText("name");
+			edtAddress.setText("address");
+			edtPhone.setText("2102102107");
+			edtCity.setText("city");
+			edtEmail.setText("email@email.com");
+			edtPassword.setText("b");
+			edtConfPassword.setText("b");
+
 	   
        btnSignIn.setOnClickListener(new View.OnClickListener() {
-   	       @Override
-           public void onClick(View arg0) {
-		        if (ValidateRoutine()){
-		           PostHttpResponseSingInAsync SignInTask = new PostHttpResponseSingInAsync(NewUserActivity);
-		           SignInTask.execute(Commons.URL + "/register",
-		        		              edtName.getText().toString(),
-		        		              edtAddress.getText().toString(),
-		        		              edtCity.getText().toString(),
-		        		              edtPhone.getText().toString(),
-		        		              edtEmail.getText().toString(),
-		        		              Commons.encryptPassword(edtPassword.getText().toString()));
-		        }
-   	       }
- 	      });
+		   @Override
+		   public void onClick(View arg0) {
+			   if (ValidateRoutine()) {
+				   PostHttpResponseSingInAsync SignInTask = new PostHttpResponseSingInAsync(NewUserActivity);
+				   SignInTask.execute(Commons.URL + "/register",
+						   edtName.getText().toString(),
+						   edtAddress.getText().toString(),
+						   edtCity.getText().toString(),
+						   edtPhone.getText().toString(),
+						   edtEmail.getText().toString(),
+						   Commons.encryptPassword(edtPassword.getText().toString()));
+			   }
+		   }
+	   });
     	}
 	
     	
@@ -201,6 +209,7 @@ class PostHttpResponseSingInAsync extends AsyncTask<String, JSONObject, JSONObje
 			String line = br.readLine();
 			while(line != null){
 				rtnString = line;
+				line = br.readLine();
 			}
 			br.close();
 			return new JSONObject(rtnString);
