@@ -1,15 +1,12 @@
 package com.aalexandrakis.fruit_e_shop;
 
 
-
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.ListView;
+import android.widget.TextView;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -23,12 +20,13 @@ import org.apache.http.protocol.HTTP;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.ListView;
-import android.widget.TextView;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 //import android.widget.TextView;
 
 
@@ -46,7 +44,6 @@ public class Ordered_items extends Login  {
 	super.onPause();
     }
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	 super.onCreate(savedInstanceState);
@@ -204,8 +201,8 @@ public class Ordered_items extends Login  {
 		Log.i("OrderId", params.get(0).toString());
 		
 	    HttpClient httpClient = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 10000);
-        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 10000);
+        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 30000);
+        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 30000);
         HttpPost httpPost = new HttpPost(url_str);  
      // Building Parameters
         UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
