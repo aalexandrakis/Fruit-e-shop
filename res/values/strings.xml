@@ -22,6 +22,7 @@
     <string name="vieworder">View your orders</string>
     <string name="chgaccount">Change your user account</string>
     <string name="chgsettings">Change settings</string>
+    <string name="chgpassword">Change your password</string>
     <string name="mainmenu">Main Menu</string>
     
     <string name="phones">Τηλέφωνα</string>
@@ -76,8 +77,10 @@
     <string name="SaveSettings">Save Settings</string>
     <string name="SaveToSdCard">Save to Sd card</string>
     <string name="SaveToMemory">Save to Internal Memory</string>
-    
-    
+
+    <string name="OldPassword">Old Password</string>
+    <string name="NewPassword">New Password</string>
+
     
     
 </resources>
