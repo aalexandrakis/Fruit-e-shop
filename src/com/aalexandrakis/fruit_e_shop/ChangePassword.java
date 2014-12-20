@@ -41,7 +41,6 @@ public class ChangePassword extends Login  {
     String idString;
     ChangePassword changePasswordActivity = this;
 
-    ProgressDialog GetInfoPg;
 
     protected void onPause() {
         //if (SingInAsync != null &&

@@ -12,7 +12,7 @@ import java.util.Formatter;
  * Created by aalexandrakis on 16/12/2014.
  */
 public class Commons {
-    public static String URL = "http://192.168.1.4:8080/fruitShopWicket/rest/services";
+    public static String URL = "http://192.168.1.5:9090/fruitShopWicket/rest/services";
 
     public static String encryptPassword(String password) {
         String sha1 = "";

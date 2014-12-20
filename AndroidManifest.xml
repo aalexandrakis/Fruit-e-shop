@@ -83,6 +83,12 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity android:theme="@style/FullscreenTheme" android:name="com.aalexandrakis.fruit_e_shop.ChangePassword" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.aalexandrakis.fruit_e_shop.ChangePassword"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:theme="@style/FullscreenTheme" android:name="com.aalexandrakis.fruit_e_shop.View_orders" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.aalexandrakis.fruit_e_shop.View_orders"/>
