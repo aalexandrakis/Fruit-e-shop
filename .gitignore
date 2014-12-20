@@ -3,3 +3,5 @@
 *.class
 .idea/
 target/
+out/
+Fruit-e-shop.iml
