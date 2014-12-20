@@ -11,6 +11,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.params.ConnManagerParams;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
@@ -31,11 +32,8 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
@@ -44,21 +42,14 @@ public class Login extends Activity  {
 	public static final String FRUIT_E_SHOP_PREF = "Fruit_e_Shop_Pref" ;
 	public static final String MYCART = "MyCart" ;
 	public static ArrayList<Item> MyCartArray = new ArrayList<Item>();
-	//private static final String url_login = "http://10.0.2.2/android-fruit-e-shop/androidLogin.php";
-	//private static final String url_forgot = "http://10.0.2.2/android-fruit-e-shop/androidForgotPassword.php";
-	//public static final String url_getCategories = "http://10.0.2.2/android-fruit-e-shop/androidSelectCategoryXML.php";
-	//public static final String url_Contactus="http://10.0.2.2/android-fruit-e-shop/androidLogin.php";
-	public static final String url_forgot = "http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidforgotpassword.php";
 	public static final String url_getCategories = "http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidSelectCategoryXML.php";
     public static final String url_Contactus="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidcontactus.php";
     public static final String url_Products="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidSelectProductsXML.php";
-    public static final String url_NewUser="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidNewUser.php";
     public static final String url_UpdateUser="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidUpdateUser.php";
     public static final String url_GetUserInfo="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidGetUserInfo.php";
     public static final String url_GetOrders="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidGetOrders.php";
     public static final String url_CreateOrder="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidCreateOrder.php";
     public static final String url_GetOrderedItems="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidGetOrderedItems.php";
-    public static final String url_GetAllOrderedItems="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidGetAllOrderedItems.php";
     public static String app_path="";
     
     
@@ -66,8 +57,8 @@ public class Login extends Activity  {
 	
 	public ProgressDialog pg;
 	public ProgressDialog changePassPg;
-	public postHttpResponseAsync async;
-	public ForgotPassword forgotPasswordAsync;
+	public LoginAsyncTask async;
+	public ForgotPasswordAsyncTask forgotPasswordAsyncTaskAsync;
     
     Button btnConnect;
     Button btnForgot;
@@ -86,9 +77,9 @@ public class Login extends Activity  {
     		async.getStatus() != AsyncTask.Status.FINISHED){
     	       async.cancel(true);
     	}
-    	if (forgotPasswordAsync != null &&
-    		forgotPasswordAsync.getStatus() != AsyncTask.Status.FINISHED){
-    	      forgotPasswordAsync.cancel(true);
+    	if (forgotPasswordAsyncTaskAsync != null &&
+    		forgotPasswordAsyncTaskAsync.getStatus() != AsyncTask.Status.FINISHED){
+    	      forgotPasswordAsyncTaskAsync.cancel(true);
     	}      
     	super.onPause();
     }
@@ -249,9 +240,9 @@ public class Login extends Activity  {
       	      
           } 
          if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-        	 async = (postHttpResponseAsync) new postHttpResponseAsync(this).execute(Commons.URL + "/login", email, password);
+        	 async = (LoginAsyncTask) new LoginAsyncTask(this).execute(Commons.URL + "/login", email, password);
          } else {
-        	 async = (postHttpResponseAsync) new postHttpResponseAsync(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Commons.URL + "/login", email, password);
+        	 async = (LoginAsyncTask) new LoginAsyncTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Commons.URL + "/login", email, password);
          }
      }
 	
@@ -270,7 +261,7 @@ public class Login extends Activity  {
          }
 		List<NameValuePair> params_forgot = new ArrayList<NameValuePair>();
 	      params_forgot.add(new BasicNameValuePair("email", email));
-	    forgotPasswordAsync = (ForgotPassword) new ForgotPassword(this).execute(Commons.URL + "/resetPassword" , email);
+	    forgotPasswordAsyncTaskAsync = (ForgotPasswordAsyncTask) new ForgotPasswordAsyncTask(this).execute(Commons.URL + "/resetPassword" , email);
 	 }
     
     public Float GetMyCartSummary(){
@@ -319,19 +310,19 @@ public class Login extends Activity  {
 }
 
 
-class postHttpResponseAsync extends AsyncTask<String, JSONObject, JSONObject>{
+class LoginAsyncTask extends AsyncTask<String, JSONObject, JSONObject>{
     private Login ThisActivity;
    
-	postHttpResponseAsync(Login a){
+	LoginAsyncTask(Login a){
     	ThisActivity = a;
     }
 	
 	@Override
 	protected JSONObject doInBackground(String... arg0) {
-		JSONObject jsonCust = new JSONObject();
 		HttpClient httpClient = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 10000);
-        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 10000);
+		ConnManagerParams.setTimeout(httpClient.getParams(), 30000);
+        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 30000);
+        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 30000);
         HttpPost httpPost = new HttpPost(arg0[0]);
         Log.d("HttpPost", "New HttpPost");
      // Building Parameters
@@ -402,15 +393,16 @@ class postHttpResponseAsync extends AsyncTask<String, JSONObject, JSONObject>{
 }
 
 
-class ForgotPassword extends AsyncTask<String, JSONObject, JSONObject>{
+class ForgotPasswordAsyncTask extends AsyncTask<String, JSONObject, JSONObject>{
     private Login ThisActivity;
    
-	ForgotPassword(Login a){
+	ForgotPasswordAsyncTask(Login a){
     	ThisActivity = a;
     }
 	
 	@Override
 	protected JSONObject doInBackground(String... arg0) {
+		Log.d("pointer", "in forgot pass doinbackground");
 		//String url_str = "http://" + arg0[3] + arg0[0];
 		String url_str = arg0[0];
 		Log.d("url", url_str);
@@ -418,17 +410,14 @@ class ForgotPassword extends AsyncTask<String, JSONObject, JSONObject>{
 		Log.d("email", email);
 		String rtnString = "";
 		HttpClient httpClient = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 10000);
-        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 10000);
+		ConnManagerParams.setTimeout(httpClient.getParams(), 30000);
+        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 30000);
+        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 30000);
         HttpPost httpPost = new HttpPost(url_str);
-        Log.d("HttpPost", "New HttpPost");
-     // Building Parameters
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("email", email));    
-	    Log.d("List", "NameValuePair");    
-        try {
+	    try {
 		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-	    httpPost.setHeader("Host", "aalexandrakis.freevar.com");
 		entity.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
 		entity.setContentEncoding("UTF-8");
 		entity.setChunked(true);

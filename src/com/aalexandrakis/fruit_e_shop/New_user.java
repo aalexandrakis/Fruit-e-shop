@@ -178,8 +178,8 @@ class PostHttpResponseSingInAsync extends AsyncTask<String, JSONObject, JSONObje
 		String password = arg0[6];
 		String rtnString = "";
 		HttpClient httpClient = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 10000);
-        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 10000);
+        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 30000);
+        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 30000);
         HttpPost httpPost = new HttpPost(url_str);
         Log.i("HttpPost", "New HttpPost");
      // Building Parameters
@@ -191,16 +191,13 @@ class PostHttpResponseSingInAsync extends AsyncTask<String, JSONObject, JSONObje
             params.add(new BasicNameValuePair("email", email));
             params.add(new BasicNameValuePair("password", password));
             
-	    Log.i("List", "NameValuePair");    
         try {
 		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-	    httpPost.setHeader("Host", "aalexandrakis.freevar.com");
 		entity.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
 		entity.setContentEncoding("UTF-8");
 		entity.setChunked(true);
 	    httpPost.setEntity(entity);
 	    HttpResponse response;
-	    Log.i("response", "httpresponse");
 		try {
 			response = httpClient.execute(httpPost);
 			
