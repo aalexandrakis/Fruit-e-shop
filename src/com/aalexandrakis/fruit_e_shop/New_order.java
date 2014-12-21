@@ -60,7 +60,7 @@ public class New_order extends Login {
 				Async = (GetCategories) new GetCategories(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Commons.URL + "/getCategories");
 			}
 		} else {
-			ShowAlertDialog("Connectivity Error", "No Internet Connection");
+			showAlertDialog("Connectivity Error", "No Internet Connection");
 		}
 	}
 
@@ -159,7 +159,7 @@ class GetCategories extends AsyncTask<String, ArrayList<Category>, ArrayList<Cat
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			Log.e("doInBackground-xppe", e.getMessage());
-			mainActivity.ShowAlertDialog("Error", "Data not found try later");
+			mainActivity.showAlertDialog("Error", "Data not found try later");
 		} finally {
 			Log.e("finally", categoryArrayList.toString());
 		}

@@ -75,7 +75,7 @@ public class View_Cart extends Login  {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			if (checkConnectivity()==false){
-				ShowAlertDialog("Connectivity Error", "No Internet Connection");
+				showAlertDialog("Connectivity Error", "No Internet Connection");
 			} else {
 				FinishYourOrder();
 			}
@@ -214,7 +214,7 @@ public class View_Cart extends Login  {
 				   UpdateAdapter(ItemPosition, Float.parseFloat(txtItemQuantity.getText().toString()));
 				   dialog.dismiss();
 				} catch(NumberFormatException e) {
-					//ShowAlertDialog("Type Error", "Quantity not valid.  Try again");
+					//showAlertDialog("Type Error", "Quantity not valid.  Try again");
 					Toast.makeText(getApplicationContext(), "Quantity not valid", Toast.LENGTH_SHORT).show();
 					dialog.dismiss();
 					//return;

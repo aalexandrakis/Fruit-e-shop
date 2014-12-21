@@ -1,7 +1,15 @@
 package com.aalexandrakis.fruit_e_shop;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -12,11 +20,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
-import android.util.Log;
-import android.view.View;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.widget.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +27,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class New_user extends Login  {
 	
@@ -95,7 +99,7 @@ public class New_user extends Login  {
    public void SignInRoutine(JSONObject json) {
 	      
  		  if (json.optString("status").equals("FAILED")) {
-			  ShowAlertDialog(json.optString("status"), json.optString("message"));
+			  showAlertDialog(json.optString("status"), json.optString("message"));
 		  } else {
 			  Toast.makeText(getApplicationContext(), edtName.getText().toString() + " you have successfully sign in.", Toast.LENGTH_LONG).show();
 			  Intent openstartingpoint=new Intent("com.aalexandrakis.fruit_e_shop.Login");
@@ -108,48 +112,48 @@ public class New_user extends Login  {
     
     protected boolean ValidateRoutine() {
 	       if (checkConnectivity()==false){
-      	       ShowAlertDialog("Connectivity Error", "No Internet Connection");
+      	       showAlertDialog("Connectivity Error", "No Internet Connection");
                return false;
            }
           if (edtName.length()==0){
-      	         ShowAlertDialog("Missing Information", "Your name is missing");
+      	         showAlertDialog("Missing Information", "Your name is missing");
       	         edtName.requestFocus();
                  return false;
           }
           if (edtAddress.length()==0){
-   	         ShowAlertDialog("Missing Information", "Your address is missing");
+   	         showAlertDialog("Missing Information", "Your address is missing");
    	         edtAddress.requestFocus();
               return false;
           }
           if (edtCity.length()==0){
-   	         ShowAlertDialog("Missing Information", "Your city is missing");
+   	         showAlertDialog("Missing Information", "Your city is missing");
    	          edtCity.requestFocus();
               return false;
           }
           if (edtPhone.length()==0){
-    	       ShowAlertDialog("Missing Information", "Your phone is missing");
+    	       showAlertDialog("Missing Information", "Your phone is missing");
     	       edtPhone.requestFocus();
                return false;
            }
           if (edtEmail.length()==0){
-   	          ShowAlertDialog("Missing Information", "Your email is missing");
+   	          showAlertDialog("Missing Information", "Your email is missing");
    	          edtEmail.requestFocus();
               return false;
           }
           if (edtPassword.length()==0){
-   	          ShowAlertDialog("Missing Information", "Your password is missing");
+   	          showAlertDialog("Missing Information", "Your password is missing");
    	          edtPassword.requestFocus();
               return false;
           }
           if (edtConfPassword.length()==0){
-   	          ShowAlertDialog("Missing Information", "Your password confirmation is missing");
+   	          showAlertDialog("Missing Information", "Your password confirmation is missing");
    	          edtConfPassword.requestFocus();
               return false;
           }
           if (!edtConfPassword.getText().toString().equals(edtPassword.getText().toString())){
         	  Log.i("Password", edtPassword.getText().toString());
         	  Log.i("ConfPassword", edtConfPassword.getText().toString());
-   	          ShowAlertDialog("Password Missmatch", "Your password differs from password confirmation");
+   	          showAlertDialog("Password Missmatch", "Your password differs from password confirmation");
    	          edtConfPassword.requestFocus();
               return false;
           }

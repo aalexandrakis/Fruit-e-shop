@@ -99,9 +99,9 @@ public class ChangePassword extends Login  {
             Toast.makeText(getApplicationContext(), settings.getString("Name", "User") + " your password changed succesfully", Toast.LENGTH_LONG).show();
             this.finish();
         } else if (jsonResponse == null) {
-            ShowAlertDialog("Change password error", "Please try later");
+            showAlertDialog("Change password error", "Please try later");
         } else {
-            ShowAlertDialog(jsonResponse.optString("status"), jsonResponse.optString("message"));
+            showAlertDialog(jsonResponse.optString("status"), jsonResponse.optString("message"));
         }
 
     }
@@ -112,33 +112,33 @@ public class ChangePassword extends Login  {
         Log.i("Validate", "OK");
         if (checkConnectivity()==false){
             Log.i("ShowAlert", "OK");
-            ShowAlertDialog("Connectivity Error", "No Internet Connection");
+            showAlertDialog("Connectivity Error", "No Internet Connection");
             return false;
         }
         if (edtOldPassword.length()==0){
-            ShowAlertDialog("Missing Information", "Your name is missing");
+            showAlertDialog("Missing Information", "Your name is missing");
             edtOldPassword.requestFocus();
             return false;
         }
         if (edtNewPassword.length()==0){
-            ShowAlertDialog("Missing Information", "Your address is missing");
+            showAlertDialog("Missing Information", "Your address is missing");
             edtNewPassword.requestFocus();
             return false;
         }
         if (edtConfPassword.length()==0){
-            ShowAlertDialog("Missing Information", "Your city is missing");
+            showAlertDialog("Missing Information", "Your city is missing");
             edtConfPassword.requestFocus();
             return false;
         }
 
         if (!edtOldPassword.getText().toString().equals(settings.getString("Password", "NO PASSWORD FOUND"))){
-            ShowAlertDialog("Password Missmatch", "Your old password is error. Please try again");
+            showAlertDialog("Password Missmatch", "Your old password is error. Please try again");
             edtOldPassword.requestFocus();
             return false;
         }
 
         if (!edtNewPassword.getText().toString().equals(edtConfPassword.getText().toString())){
-            ShowAlertDialog("Password Missmatch", "Your new password is not the same with password confirmation");
+            showAlertDialog("Password Missmatch", "Your new password is not the same with password confirmation");
             edtConfPassword.requestFocus();
             return false;
         }

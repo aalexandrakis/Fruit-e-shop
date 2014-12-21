@@ -61,7 +61,7 @@ public class MainMenu extends Login  {
             		Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.Update_user");
             		startActivity(nextActivity);
             	} else {
-            		ShowAlertDialog("Connectivity Error", "No Internet Connection");
+            		showAlertDialog("Connectivity Error", "No Internet Connection");
             	}
 			}
             if (itemClicked.equals(getResources().getString(R.string.chgpassword))){
@@ -69,7 +69,7 @@ public class MainMenu extends Login  {
             		Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.ChangePassword");
             		startActivity(nextActivity);
             	} else {
-            		ShowAlertDialog("Connectivity Error", "No Internet Connection");
+            		showAlertDialog("Connectivity Error", "No Internet Connection");
             	}
 			}
             if (itemClicked.equals(getResources().getString(R.string.chgsettings))){
@@ -94,7 +94,7 @@ public class MainMenu extends Login  {
         //protected void onPause() {
     	//	
     	//	//this.onPause();
-       // 	ShowAlertDialog("test", "main menu pause");
+       // 	showAlertDialog("test", "main menu pause");
         //}
     	
 }

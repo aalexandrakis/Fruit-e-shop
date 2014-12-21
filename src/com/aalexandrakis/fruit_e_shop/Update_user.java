@@ -123,9 +123,9 @@ public class Update_user extends Login  {
  			  Toast.makeText(getApplicationContext(), edtName.getText().toString() + " your data updated succesfully", Toast.LENGTH_LONG).show();
 			  this.finish();
 		  } else if (jsonResponse == null) {
-			  ShowAlertDialog("Update account error", "Please try later");
+			  showAlertDialog("Update account error", "Please try later");
   	 	   } else {
-			  ShowAlertDialog(jsonResponse.optString("status"), jsonResponse.optString("message"));
+			  showAlertDialog(jsonResponse.optString("status"), jsonResponse.optString("message"));
            }
 
    }
@@ -136,42 +136,42 @@ public class Update_user extends Login  {
     	Log.i("Validate", "OK");
 	       if (checkConnectivity()==false){
 	    	   Log.i("ShowAlert", "OK");
-      	       ShowAlertDialog("Connectivity Error", "No Internet Connection"); 
+      	       showAlertDialog("Connectivity Error", "No Internet Connection");
                return false;
            }
           if (edtName.length()==0){
-      	         ShowAlertDialog("Missing Information", "Your name is missing");
+      	         showAlertDialog("Missing Information", "Your name is missing");
       	         edtName.requestFocus();
                  return false;
           }
           if (edtAddress.length()==0){
-   	         ShowAlertDialog("Missing Information", "Your address is missing");
+   	         showAlertDialog("Missing Information", "Your address is missing");
    	         edtAddress.requestFocus();
               return false;
           }
           if (edtCity.length()==0){
-   	         ShowAlertDialog("Missing Information", "Your city is missing");
+   	         showAlertDialog("Missing Information", "Your city is missing");
    	          edtCity.requestFocus();
               return false;
           }
           if (edtPhone.length()==0){
-    	       ShowAlertDialog("Missing Information", "Your phone is missing");
+    	       showAlertDialog("Missing Information", "Your phone is missing");
     	       edtPhone.requestFocus();
                return false;
            }
           if (edtEmail.length()==0){
-   	          ShowAlertDialog("Missing Information", "Your email is missing");
+   	          showAlertDialog("Missing Information", "Your email is missing");
    	          edtEmail.requestFocus();
               return false;
           }
           if (edtPassword.length()==0){
-   	          ShowAlertDialog("Missing Information", "Your password is missing");
+   	          showAlertDialog("Missing Information", "Your password is missing");
    	          edtPassword.requestFocus();
               return false;
           }
 
           if (!edtPassword.getText().toString().equals(settings.getString("Password", "NO PASSWORD FOUND"))){
-   	          ShowAlertDialog("Password Missmatch", "Your password is error. Please try again");
+   	          showAlertDialog("Password Missmatch", "Your password is error. Please try again");
    	          edtPassword.requestFocus();
               return false;
           }

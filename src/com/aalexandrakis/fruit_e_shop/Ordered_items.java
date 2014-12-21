@@ -141,7 +141,7 @@ public class Ordered_items extends Login  {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 	    	Log.i("doInBackground-xppe", e.getMessage());
-	    	ThisActivity.ShowAlertDialog("Error","Data not found. Please try later");
+	    	ThisActivity.showAlertDialog("Error", "Data not found. Please try later");
 	    	this.cancel(true);
 		}
 		Items = this.FillStringArray(xmlItems);

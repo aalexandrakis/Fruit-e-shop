@@ -133,7 +133,7 @@ public class Login extends Activity  {
    	    	   Intent a = new Intent("com.aalexandrakis.fruit_e_shop.New_user");
 		        startActivity(a);
         	} else {
-        		ShowAlertDialog("Connectivity Error", "No Internet Connection");
+        		showAlertDialog("Connectivity Error", "No Internet Connection");
         	}
 		     
    	       }
@@ -159,7 +159,7 @@ public class Login extends Activity  {
    	 	     startActivity(openstartingpoint);
    	 	     finish();
    		   } else {
-   		     ShowAlertDialog("Error login information", "Username or pasword not valid"); 
+   		     showAlertDialog("Error login information", "Username or pasword not valid");
              return;
    		   }
 
@@ -177,7 +177,7 @@ public class Login extends Activity  {
 		}
 	}
 	
-    public void ShowAlertDialog(String title, String message){
+    public void showAlertDialog(String title, String message){
     	new AlertDialog.Builder(this)
         .setTitle(title)
         .setMessage(message)
@@ -218,16 +218,16 @@ public class Login extends Activity  {
 		   rememberPassword = (Boolean) RememberPass.isChecked();
 		   
            if (email.length()==0){
-      	      ShowAlertDialog("Missing Information", "Username or pasword not valid"); 
+      	      showAlertDialog("Missing Information", "Username or pasword not valid");
               return;
            }
            if (password.length()==0){
-     	      ShowAlertDialog("Missing Information", "Username or pasword not valid"); 
+     	      showAlertDialog("Missing Information", "Username or pasword not valid");
               return;
           }
           if (checkConnectivity()==false) {
 			   if(settings.getBoolean("Remember", false)==false){
-				   ShowAlertDialog("Connectivity Error", "No Internet Connection"); 
+				   showAlertDialog("Connectivity Error", "No Internet Connection");
 		           return;   
 			   } else {
 				   Intent openstartingpoint=new Intent("com.aalexandrakis.fruit_e_shop.MainMenu");
@@ -250,11 +250,11 @@ public class Login extends Activity  {
 		 rememberPassword = (Boolean) RememberPass.isChecked();
 		 
          if (checkConnectivity()==false){
-      	  ShowAlertDialog("Connectivity Error", "No Internet Connection"); 
+      	  showAlertDialog("Connectivity Error", "No Internet Connection");
             return;
          }
         if (email.length()==0){
-      	    ShowAlertDialog("Missing Information", "Username or pasword not valid"); 
+      	    showAlertDialog("Missing Information", "Username or pasword not valid");
             return;
          }
 		List<NameValuePair> params_forgot = new ArrayList<NameValuePair>();
@@ -466,7 +466,7 @@ class ForgotPasswordAsyncTask extends AsyncTask<String, JSONObject, JSONObject>{
 			e.printStackTrace();
 		}
 
-		ThisActivity.ShowAlertDialog(json.optString("status"), json.optString("message"));
+		ThisActivity.showAlertDialog(json.optString("status"), json.optString("message"));
 
   		
 	}

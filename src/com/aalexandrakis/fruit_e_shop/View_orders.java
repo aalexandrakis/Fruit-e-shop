@@ -146,7 +146,7 @@ class GetOrders extends AsyncTask<Object, ArrayList<Order>, ArrayList<Order>> {
 				// 	TODO Auto-generated catch block
 				//e.printStackTrace();
 				Log.i("doInBackground-xppe", e.getMessage());
-				ThisActivity.ShowAlertDialog("Error","Data not found. Please try later");
+				ThisActivity.showAlertDialog("Error", "Data not found. Please try later");
 				this.cancel(true);
 			}
 			Orders = this.FillStringArray(xmlOrders);

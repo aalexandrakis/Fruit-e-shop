@@ -85,7 +85,7 @@ public class Select_item extends Login  {
 		if (checkConnectivity()) {
 			getItemsAsyncTask.execute(Commons.URL + "/getItems/" + this.CatId);
 		} else {
-			ShowAlertDialog("Connectivity Error", "No Internet Connection");
+			showAlertDialog("Connectivity Error", "No Internet Connection");
 		}
 	}
 
@@ -207,7 +207,7 @@ public class Select_item extends Login  {
 				   UpdateAdapter(ItemPosition, Float.parseFloat(txtItemQuantity.getText().toString()));
 				   dialog.dismiss();
 				} catch(NumberFormatException e) {
-					//ShowAlertDialog("Type Error", "Quantity not valid.  Try again");
+					//showAlertDialog("Type Error", "Quantity not valid.  Try again");
 					Toast.makeText(getApplicationContext(), "Quantity not valid", Toast.LENGTH_SHORT).show();
 					dialog.dismiss();
 					//return;
@@ -292,7 +292,7 @@ public class Select_item extends Login  {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 			Log.i("doInBackground-xppe", e.getMessage());
-			ThisActivity.ShowAlertDialog("Error", "Data not found. Please try later");
+			ThisActivity.showAlertDialog("Error", "Data not found. Please try later");
 			this.cancel(true);
 		}
 		return null;
