@@ -1,13 +1,19 @@
 package com.aalexandrakis.fruit_e_shop;
 
 public class Item {
-    private Integer ItemCode;
+    private int categoryId;
+    private int ItemCode;
     private String ItemDescr;
     private String ItemMm;
     private Float ItemPrice;
     private Float ItemQuantity;
     private Float ItemSummary;
-    
+    private int display;
+    private int lastUpdate;
+
+    public Item(){
+
+    }
     public Item(Integer C, String D, String M, Float P, Float Q, Float S ) {
     	this.ItemCode = C;
     	this.ItemDescr = D;
@@ -46,11 +52,33 @@ public class Item {
          }
     public void setItemQuantity(Float ItemQuantity){
        this.ItemQuantity=ItemQuantity;
+       this.setItemSummary(getItemPrice() * getItemQuantity());
     }
     public Float getItemSummary(){
         return ItemSummary;
          }
     public void setItemSummary(Float ItemSummary){
        this.ItemSummary=ItemSummary;
-    }    
+    }
+    public void setCategoryId(int categoryId){
+        this.categoryId = categoryId;
+    }
+    public int getCategoryId(){
+        return this.categoryId;
+    }
+    public int getDisplay() {
+        return display;
+    }
+    public void setDisplay(int display) {
+        this.display = display;
+    }
+    public void setItemCode(int itemCode) {
+        ItemCode = itemCode;
+    }
+    public int getLastUpdate() {
+        return lastUpdate;
+    }
+    public void setLastUpdate(int lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
 }
