@@ -31,7 +31,7 @@ import java.util.List;
 
 
 
-public class Contactus extends Login  {
+public class ContactUs1 extends Login  {
     Button btnSend;
     EditText editSenderEmail;
     EditText editSubject;
@@ -39,7 +39,7 @@ public class Contactus extends Login  {
     
     public ProgressDialog ContactUsPg;
     public ContactUsAsyncTask ContactUsAsync;
-    public Contactus THISACTIVITY=this;
+    public ContactUs1 THISACTIVITY=this;
     
     SharedPreferences settings;
     protected void onPause() {
@@ -103,9 +103,9 @@ public class Contactus extends Login  {
 
 
 class ContactUsAsyncTask extends AsyncTask<String, JSONObject, JSONObject>{
-    public Contactus MainClass;
+    public ContactUs1 MainClass;
    
-	ContactUsAsyncTask(Contactus a){
+	ContactUsAsyncTask(ContactUs1 a){
     	MainClass = a;
     }
 	
