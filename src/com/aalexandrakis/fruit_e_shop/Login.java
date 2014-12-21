@@ -41,7 +41,6 @@ public class Login extends Activity  {
 	public static final String FRUIT_E_SHOP_PREF = "Fruit_e_Shop_Pref" ;
 	public static final String MYCART = "MyCart" ;
 	public static ArrayList<Item> MyCartArray = new ArrayList<Item>();
-	public static final String url_getCategories = "http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidSelectCategoryXML.php";
     public static final String url_Products="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidSelectProductsXML.php";
     public static final String url_GetOrders="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidGetOrders.php";
     public static final String url_CreateOrder="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidCreateOrder.php";
@@ -319,7 +318,6 @@ class LoginAsyncTask extends AsyncTask<String, JSONObject, JSONObject>{
 	@Override
 	protected JSONObject doInBackground(String... arg0) {
 		HttpClient httpClient = new DefaultHttpClient();
-		ConnManagerParams.setTimeout(httpClient.getParams(), 30000);
         HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 30000);
         HttpConnectionParams.setSoTimeout(httpClient.getParams(), 30000);
         HttpPost httpPost = new HttpPost(arg0[0]);

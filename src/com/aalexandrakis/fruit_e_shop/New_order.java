@@ -15,15 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -56,11 +53,15 @@ public class New_order extends Login {
 		// requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.new_order);
 		GetCategories Async = null;
-		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-       	 Async = (GetCategories) new GetCategories(this).execute(url_getCategories);
-        } else {
-       	 Async = (GetCategories) new GetCategories(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url_getCategories);
-        }
+		if (checkConnectivity()) {
+			if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+				Async = (GetCategories) new GetCategories(this).execute(Commons.URL + "/getCategories");
+			} else {
+				Async = (GetCategories) new GetCategories(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Commons.URL + "/getCategories");
+			}
+		} else {
+			ShowAlertDialog("Connectivity Error", "No Internet Connection");
+		}
 	}
 
 	@Override
@@ -106,73 +107,53 @@ class GetCategories extends AsyncTask<String, ArrayList<Category>, ArrayList<Cat
 		this.mainActivity = mainActivity;
 	}
 
-	static String convertStreamToString(java.io.InputStream is) {
-	    java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-	    return s.hasNext() ? s.next() : "";
-	}
-	
 	@Override
 	protected ArrayList<Category> doInBackground(String... arg0) {
 		// TODO Auto-generated method stub
 		String url = (String) arg0[0];
 		InputStream rtnStream = null;
-		
-		//get xml from internet or local storage
-		if (mainActivity.checkConnectivity()){
-			HttpClient httpClient = new DefaultHttpClient();
-	        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 30000);
-	        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 30000);
-	        HttpPost httpPost = new HttpPost(url);  
-	        HttpResponse response;
-			try {
-				response = httpClient.execute(httpPost);
-		        rtnStream = response.getEntity().getContent();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				Log.e("Get XML from internet", e.getMessage());
-			}
-		} else {
-			final File file = new File(Login.app_path, "Categories.xml");
-			if (file.exists()){
-				try {
-					rtnStream = new FileInputStream(file);
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
-					Log.e("File from local storage", e.getMessage());
-					
-				}
-				Log.i("No internet connection", "Getting data from "+file.toString());
-			}
+
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 30000);
+		HttpConnectionParams.setSoTimeout(httpClient.getParams(), 30000);
+		HttpGet httpGet = new HttpGet(url);
+		HttpResponse response;
+		try {
+			response = httpClient.execute(httpGet);
+			rtnStream = response.getEntity().getContent();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		//parse xml
 		XmlPullParser xmlCategories = null;
-		ArrayList<Category> CategoriesA = new ArrayList<Category>();
+		ArrayList<Category> categoryArrayList = new ArrayList<Category>();
 		try {
 			xmlCategories = XmlPullParserFactory.newInstance().newPullParser();
 			xmlCategories.setInput(rtnStream, null);
 			Integer eventtype = -1;
-			String CategoryCodeStr = null;
+			String categoryCodeStr = null;
 			Integer CategoryCode;
-			String CategoryDescr = null;
+			String categoryDescr = null;
 			eventtype = xmlCategories.getEventType();
 			while (eventtype != XmlPullParser.END_DOCUMENT) {
-				if (eventtype == XmlPullParser.START_TAG) {
-					if (xmlCategories.getName().equals("category")) {
-						CategoryCodeStr = xmlCategories.getAttributeValue(null,
-								"categoryid");
-						CategoryDescr = xmlCategories.getAttributeValue(null,
-								"categoryname");
-						CategoryCode = Integer.parseInt(CategoryCodeStr);
-						Category NewCategory = new Category(CategoryCode,
-								CategoryDescr);
-						CategoriesA.add(NewCategory);
-					}
-				} if (eventtype == XmlPullParser.END_TAG && xmlCategories.getName().equals("categories")){
+
+				if (eventtype == XmlPullParser.START_TAG && xmlCategories.getName().equals("item_category")) {
+					categoryCodeStr = "";
+					categoryDescr = "";
+				} else if (eventtype == XmlPullParser.START_TAG && xmlCategories.getName().equals("category")) {
+						categoryDescr = xmlCategories.nextText();
+				} else if (eventtype == XmlPullParser.START_TAG && xmlCategories.getName().equals("categoryid")) {
+						categoryCodeStr = xmlCategories.nextText();
+				} else if (eventtype == XmlPullParser.END_TAG && xmlCategories.getName().equals("item_category")) {
+					CategoryCode = Integer.parseInt(categoryCodeStr);
+					Category newCategory = new Category(CategoryCode,
+							categoryDescr);
+					categoryArrayList.add(newCategory);
+				}else if (eventtype == XmlPullParser.END_TAG && xmlCategories.getName().equals("categories")) {
 					break;
 				}
-				eventtype = xmlCategories.next();
+				eventtype = xmlCategories.nextTag();
 			}
 
 		} catch (Exception e) {
@@ -180,12 +161,10 @@ class GetCategories extends AsyncTask<String, ArrayList<Category>, ArrayList<Cat
 			Log.e("doInBackground-xppe", e.getMessage());
 			mainActivity.ShowAlertDialog("Error", "Data not found try later");
 		} finally {
-			Log.e("finally", CategoriesA.toString());
+			Log.e("finally", categoryArrayList.toString());
 		}
 	
-		
-
-		return CategoriesA;
+		return categoryArrayList;
 	}
 
 	@Override
