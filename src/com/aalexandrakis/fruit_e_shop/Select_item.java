@@ -57,7 +57,7 @@ public class Select_item extends Login  {
 		boolean atLeastOneChange=false;
 		for (i=0;i<adapt.getCount();i++){
 			if (adapt.getItem(i).getItemQuantity() > Float.parseFloat("0.0") &&
-			   (!MyCartArray.contains(adapt.getItem(i)))){
+			   (!myCartArray.contains(adapt.getItem(i)))){
 				   adapt.getItem(i).setItemQuantity(Float.parseFloat("0.0"));
 				   adapt.getItem(i).setItemSummary(Float.parseFloat("0.0"));
 				   atLeastOneChange = true;
@@ -158,13 +158,13 @@ public class Select_item extends Login  {
 	    adapt.getItem(pos).setItemSummary(Quantity * adapt.getItem(pos).getItemPrice());
 		adapt.notifyDataSetChanged();
 		
-		if (!MyCartArray.isEmpty() && MyCartArray.contains(SelectedItem)){
-			Log.i("MyCartArray", "Contains Selected Item");
-			MyCartArray.remove(SelectedItem);
+		if (!myCartArray.isEmpty() && myCartArray.contains(SelectedItem)){
+			Log.i("myCartArray", "Contains Selected Item");
+			myCartArray.remove(SelectedItem);
 			Log.i("MyCartAray", "SelectedItem Removed");
 		}
 			
-		MyCartArray.add(SelectedItem);
+		myCartArray.add(SelectedItem);
 		Log.i("MyCartAray", "Selected Item Added");
 		Float MyCartSummary = GetMyCartSummary();
 		Toast.makeText(getApplicationContext(), "Your cart summary is " + MyCartSummary.toString(), Toast.LENGTH_LONG).show();
@@ -237,7 +237,7 @@ public class Select_item extends Login  {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				// TODO Auto-generated method stub
-				MyCartArray.clear();
+				myCartArray.clear();
 				adapt.notifyDataSetChanged();
 				return false;
 			}

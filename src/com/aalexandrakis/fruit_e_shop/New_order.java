@@ -40,7 +40,7 @@ public class New_order extends Login {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
 						// TODO Auto-generated method stub
-						MyCartArray.clear();
+						myCartArray.clear();
 						return false;
 					}
 				});

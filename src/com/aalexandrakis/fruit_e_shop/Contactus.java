@@ -31,7 +31,7 @@ import java.util.List;
 
 
 
-public class ContactUs extends Login  {
+public class Contactus extends Login  {
     Button btnSend;
     EditText editSenderEmail;
     EditText editSubject;
@@ -39,7 +39,7 @@ public class ContactUs extends Login  {
     
     public ProgressDialog ContactUsPg;
     public ContactUsAsyncTask ContactUsAsync;
-    public ContactUs THISACTIVITY=this;
+    public Contactus THISACTIVITY=this;
     
     SharedPreferences settings;
     protected void onPause() {
@@ -75,7 +75,7 @@ public class ContactUs extends Login  {
 			if (checkConnectivity()){
 				ContactUs_Routine(); 	
         	} else {
-        		ShowAlertDialog("Conectivity Error", "No Internet Connection");
+        		showAlertDialog("Conectivity Error", "No Internet Connection");
         		return;
         	}
 	 	     
@@ -86,15 +86,15 @@ public class ContactUs extends Login  {
  
    void ContactUs_Routine(){
      if (editSenderEmail.length()==0){
-    	  ShowAlertDialog("Missing Information", "Sender email is missing"); 
+    	  showAlertDialog("Missing Information", "Sender email is missing");
           return;
      }
      if (editSubject.length()==0){
-       	  ShowAlertDialog("Missing Information", "Subject is missing"); 
+       	  showAlertDialog("Missing Information", "Subject is missing");
           return;
      }
      if (editEmailText.length()==0){
-   	     ShowAlertDialog("Missing Information", "Email text is missing"); 
+   	     showAlertDialog("Missing Information", "Email text is missing");
          return;
      }
      ContactUsAsync = (ContactUsAsyncTask) new ContactUsAsyncTask(THISACTIVITY).execute(Commons.URL + "/contactUs", editSenderEmail.getText().toString(), editSubject.getText().toString(), editEmailText.getText().toString());
@@ -103,9 +103,9 @@ public class ContactUs extends Login  {
 
 
 class ContactUsAsyncTask extends AsyncTask<String, JSONObject, JSONObject>{
-    public ContactUs MainClass;
+    public Contactus MainClass;
    
-	ContactUsAsyncTask(ContactUs a){
+	ContactUsAsyncTask(Contactus a){
     	MainClass = a;
     }
 	
@@ -174,11 +174,11 @@ class ContactUsAsyncTask extends AsyncTask<String, JSONObject, JSONObject>{
 			e.printStackTrace();
 		}
 		if (jsonResponse != null && jsonResponse.optString("status").equals("SUCCESS")){
-			MainClass.ShowAlertDialog(jsonResponse.optString("status"), jsonResponse.optString("message"));
+			MainClass.showAlertDialog(jsonResponse.optString("status"), jsonResponse.optString("message"));
 		} else if (jsonResponse != null) {
-			MainClass.ShowAlertDialog(jsonResponse.optString("status"), jsonResponse.optString("message"));
+			MainClass.showAlertDialog(jsonResponse.optString("status"), jsonResponse.optString("message"));
 		} else {
-			MainClass.ShowAlertDialog("FAILED", "Please try later");
+			MainClass.showAlertDialog("FAILED", "Please try later");
 		}
 	}
 }

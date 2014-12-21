@@ -22,19 +22,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 //import android.widget.TextView;
 
 
@@ -61,9 +55,9 @@ public class View_Cart extends Login  {
 	  Button btnFinish = (Button) findViewById(R.id.btnFinishOrder);
 	  registerForContextMenu(findViewById(R.id.CartList));
 	  TextView txtCartSummary = (TextView) findViewById(R.id.txtCartSummary);
-	  fillListWithProducts(MyCartArray);
+	  fillListWithProducts(myCartArray);
 	  txtCartSummary.setText(GetMyCartSummary().toString());
-	  if (MyCartArray.isEmpty()){
+	  if (myCartArray.isEmpty()){
 		  btnFinish.setEnabled(false);
 	  } else {
 		  btnFinish.setEnabled(true);
@@ -97,8 +91,8 @@ public class View_Cart extends Login  {
 	 
 	    switch (item.getItemId()) {
 	    case R.id.RemoveFromCart:
-	        MyCartArray.remove(info.position);
-	        fillListWithProducts(MyCartArray);
+	        myCartArray.remove(info.position);
+	        fillListWithProducts(myCartArray);
 	        TextView txtCartSummary = (TextView) findViewById(R.id.txtCartSummary);
 	        txtCartSummary.setText(GetMyCartSummary().toString());
 	        return true;
@@ -166,13 +160,13 @@ public class View_Cart extends Login  {
 	    adapt.getItem(pos).setItemSummary(Quantity * adapt.getItem(pos).getItemPrice());
 		adapt.notifyDataSetChanged();
 		
-		if (!MyCartArray.isEmpty() && MyCartArray.contains(SelectedItem)){
-			Log.i("MyCartArray", "Contains Selected Item");
-			MyCartArray.remove(SelectedItem);
+		if (!myCartArray.isEmpty() && myCartArray.contains(SelectedItem)){
+			Log.i("myCartArray", "Contains Selected Item");
+			myCartArray.remove(SelectedItem);
 			Log.i("MyCartAray", "SelectedItem Removed");
 		}
 			
-		MyCartArray.add(SelectedItem);
+		myCartArray.add(SelectedItem);
 		Log.i("MyCartAray", "Selected Item Added");
 		Float MyCartSummary = GetMyCartSummary();
 		//Toast.makeText(getApplicationContext(), "Your cart summary is " + MyCartSummary.toString(), Toast.LENGTH_LONG).show();
@@ -237,80 +231,12 @@ public class View_Cart extends Login  {
 	
 	
 	protected void FinishYourOrder(){
-		int i = 0;
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder documentBuilder = null;
-		try {
-			documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		} catch (ParserConfigurationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		Document document = documentBuilder.newDocument();
-		Element rootElement = document.createElement("order");//Parent Node of the xml
-		document.appendChild(rootElement);
-		for (i=0;i<MyCartArray.size();i++){
-			Item ReadedItem = MyCartArray.get(i);
-	         
-			 Element childElementItem = document.createElement("item");//Child Node
-			 childElementItem.setAttribute("itemid", ReadedItem.getItemCode().toString());
-			 childElementItem.setAttribute("itemquan", ReadedItem.getItemQuantity().toString());
-			 childElementItem.setAttribute("itemprice", ReadedItem.getItemPrice().toString());
-			 rootElement.appendChild(childElementItem);
-			//rootElement.appendChild(childElementItem);
-			//Element childElementItem = document.createElement("item");//Child Node
-			//rootElement.appendChild(childElementItem);
-			
-			//Element childElementItemId = document.createElement("itemid");//Child Node
-			//childElementItemId .appendChild(document.createTextNode(ReadedItem.getItemCode().toString()));
-			//childElementItem.appendChild(childElementItemId);
-
-			//Element childElementItemDescr = document.createElement("itemdescr");//Child Node
-			//childElementItemDescr .appendChild(document.createTextNode(ReadedItem.getItemDescr().toString()));
-			//childElementItem.appendChild(childElementItemDescr);
-			
-			//Element childElementItemPrice = document.createElement("itemprice");//Child Node
-			//childElementItemPrice .appendChild(document.createTextNode(ReadedItem.getItemPrice().toString()));
-			//childElementItem.appendChild(childElementItemPrice);
-
-			//Element childElementItemQuan = document.createElement("itemquan");//Child Node
-			//childElementItemQuan .appendChild(document.createTextNode(ReadedItem.getItemQuantity().toString()));
-			//childElementItem.appendChild(childElementItemQuan);
-		
-		}
-		TransformerFactory factory = TransformerFactory.newInstance();
-		Transformer transformer = null;
-		try {
-			transformer = factory.newTransformer();
-		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Properties outFormat = new Properties();
-		outFormat.setProperty(OutputKeys.INDENT, "yes");
-		outFormat.setProperty(OutputKeys.METHOD, "xml");
-		outFormat.setProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-		outFormat.setProperty(OutputKeys.VERSION, "1.0");
-		outFormat.setProperty(OutputKeys.ENCODING, "UTF-8");
-		transformer.setOutputProperties(outFormat);
-		DOMSource domSource = new DOMSource(document.getDocumentElement());
-		OutputStream output = new ByteArrayOutputStream();
-		StreamResult result = new StreamResult(output);
-		try {
-			transformer.transform(domSource, result);
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String strInputXML = output.toString(); //Storing into a string
-		Log.i("XmlOrder", strInputXML);
-		String Email = settings.getString("Email", "");
 		CreateOrderAsync CreateOrderAsyncObject = new CreateOrderAsync(this);
-		CreateOrderAsyncObject.execute(url_CreateOrder, Email, strInputXML);
+		CreateOrderAsyncObject.execute(Commons.URL_COMPLETE_ORDER, settings.getString("Email", ""));
 	}
 	
 	public void EmptyCart() {
-		MyCartArray.clear();
+		myCartArray.clear();
 		TextView txtCartSummary = (TextView) findViewById(R.id.txtCartSummary);
 		txtCartSummary.setText("");
 		adapt.notifyDataSetChanged();
@@ -338,21 +264,17 @@ public class View_Cart extends Login  {
 
 ////////////////////////////////////////////////////////////////////////
 class CreateOrderAsync extends AsyncTask<String, String, String>{
-    public View_Cart ThisActivity;
+    public View_Cart viewCart;
    
 	CreateOrderAsync(View_Cart a){
-    	ThisActivity = a;
+    	viewCart = a;
     }
 	
 	@Override
 	protected String doInBackground(String... arg0) {
 		//String url_str = "http://" + arg0[3] + arg0[0];
 		String url_str = arg0[0];
-		Log.i("url", url_str);
-		String email = arg0[1];
-		Log.i("email", email);
-		String xmlString = arg0[2];
-		Log.i("xml", xmlString);
+
 		String rtnString = "";
 		HttpClient httpClient = new DefaultHttpClient();
         HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 30000);
@@ -361,8 +283,14 @@ class CreateOrderAsync extends AsyncTask<String, String, String>{
         Log.i("HttpPost", "New HttpPost");
      // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("email", email));    
-	        params.add(new BasicNameValuePair("orderXML", xmlString));
+		params.add(new BasicNameValuePair("email", arg0[1]));
+		int i = 1;
+		for (Item item : viewCart.myCartArray){
+			params.add(new BasicNameValuePair("item_number" + String.valueOf(i), item.getItemCode().toString()));
+			params.add(new BasicNameValuePair("quantity" + String.valueOf(i), item.getItemQuantity().toString()));
+			i++;
+		}
+
 	    Log.i("List", "NameValuePair");    
         try {
 		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -402,16 +330,16 @@ class CreateOrderAsync extends AsyncTask<String, String, String>{
 	}
 	
 	protected void onPreExecute() {
-		ThisActivity.pg.show();
+		viewCart.pg.show();
 	}
 	protected void onPostExecute(String RtnString) {
 		Log.i("onPostExecute", RtnString);
-		ThisActivity.pg.dismiss();
+		viewCart.pg.dismiss();
 		if (RtnString.startsWith("1")){
-			ThisActivity.EmptyCart();
-		    Toast.makeText(ThisActivity.getApplicationContext(), "Your order uploaded successfully. Thank you.", Toast.LENGTH_LONG).show();
+			viewCart.EmptyCart();
+		    Toast.makeText(viewCart.getApplicationContext(), "Your order uploaded successfully. Thank you.", Toast.LENGTH_LONG).show();
 		}
-  		//ThisActivity.LoginRoutine(RtnString);
+  		//viewCart.LoginRoutine(RtnString);
   		try {
 			this.finalize();
 		} catch (Throwable e) {

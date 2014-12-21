@@ -40,10 +40,10 @@ import java.util.List;
 public class Login extends Activity  {
 	public static final String FRUIT_E_SHOP_PREF = "Fruit_e_Shop_Pref" ;
 	public static final String MYCART = "MyCart" ;
-	public static ArrayList<Item> MyCartArray = new ArrayList<Item>();
+	public static ArrayList<Item> myCartArray = new ArrayList<Item>();
 //    public static final String url_Products="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidSelectProductsXML.php";
     public static final String url_GetOrders="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidGetOrders.php";
-    public static final String url_CreateOrder="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidCreateOrder.php";
+//    public static final String url_CreateOrder="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidCreateOrder.php";
     public static final String url_GetOrderedItems="http://www.aalexandrakis.freevar.com/android-fruit-e-shop/androidGetOrderedItems.php";
     public static String app_path="";
     
@@ -265,12 +265,12 @@ public class Login extends Activity  {
     public Float GetMyCartSummary(){
     	Float MyCartSummary=Float.parseFloat("0.0");
     	int i;
-    	Log.d("GetMyCartSummary",String.valueOf(MyCartArray.size()));
-    	for (i=0;i<MyCartArray.size();i++){
-    		Log.d("GetMyCartSummary",MyCartArray.get(i).getItemDescr());
-    		Log.d("GetMyCartSummary",MyCartArray.get(i).getItemPrice().toString());
-    		Log.d("GetMyCartSummary",MyCartArray.get(i).getItemQuantity().toString());
-    		MyCartSummary = MyCartSummary + (MyCartArray.get(i).getItemPrice() * MyCartArray.get(i).getItemQuantity());
+    	Log.d("GetMyCartSummary",String.valueOf(myCartArray.size()));
+    	for (i=0;i< myCartArray.size();i++){
+    		Log.d("GetMyCartSummary", myCartArray.get(i).getItemDescr());
+    		Log.d("GetMyCartSummary", myCartArray.get(i).getItemPrice().toString());
+    		Log.d("GetMyCartSummary", myCartArray.get(i).getItemQuantity().toString());
+    		MyCartSummary = MyCartSummary + (myCartArray.get(i).getItemPrice() * myCartArray.get(i).getItemQuantity());
     	}
     	return MyCartSummary;
     }
@@ -278,10 +278,10 @@ public class Login extends Activity  {
     public Float returnQuantityIfExists(int ItemCode){
     	int i;
     	//Log.d("ReturnQuantity","Current ItemCode="+String.valueOf(ItemCode));
-    	for (i=0;i<MyCartArray.size();i++){
-    		//Log.d("ReturnQuantity","MyCartArray ItemCode="+MyCartArray.get(i).getItemCode().toString());
-    		if (ItemCode == MyCartArray.get(i).getItemCode()){
-    			return MyCartArray.get(i).getItemQuantity();
+    	for (i=0;i< myCartArray.size();i++){
+    		//Log.d("ReturnQuantity","myCartArray ItemCode="+myCartArray.get(i).getItemCode().toString());
+    		if (ItemCode == myCartArray.get(i).getItemCode()){
+    			return myCartArray.get(i).getItemQuantity();
     		}
     	}
     	return Float.parseFloat("0.0");
