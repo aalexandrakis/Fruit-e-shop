@@ -81,6 +81,10 @@
     <string name="OldPassword">Old Password</string>
     <string name="NewPassword">New Password</string>
 
-    
+    <string name="paymentError">Error in payment</string>
+    <string name="paymentOk">Payment completed</string>
+    <string name="payment_thank_you">Thank you very much. We wish you good luck.</string>
+    <string name="amount_must_not_be_empty">Please type how many coins you want to buy.</string>
+
     
 </resources>

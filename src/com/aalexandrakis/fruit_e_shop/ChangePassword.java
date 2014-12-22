@@ -71,8 +71,8 @@ public class ChangePassword extends Login  {
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
 
 
-        //for test only
-        edtOldPassword.setText(settings.getString("Password", ""));
+//        //for test only
+//        edtOldPassword.setText(settings.getString("Password", ""));
 
         btnSignIn.setText("Update");
 

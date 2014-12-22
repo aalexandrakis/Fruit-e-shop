@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,9 @@ import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import com.paypal.android.MEP.CheckoutButton;
+import com.paypal.android.MEP.PayPal;
+import com.paypal.android.MEP.PayPalPayment;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -23,19 +27,29 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 //import android.widget.TextView;
 
 
 public class View_Cart extends Login  {
+
+	public static String resultTitle;
+	public static String resultInfo;
+	public static String resultExtra;
+	public static String payKey;
+
+	CheckoutButton launchPayPalButton;
+
 	private ItemAdapter adapt;
 	public ProgressDialog pgd;
-	
+
+	private View_Cart viewCart = this;
+
 	protected void onPause() {
 	    super.onPause();
     }
@@ -54,9 +68,9 @@ public class View_Cart extends Login  {
 	  setContentView(R.layout.view_cart);
 	  Button btnFinish = (Button) findViewById(R.id.btnFinishOrder);
 	  registerForContextMenu(findViewById(R.id.CartList));
-	  TextView txtCartSummary = (TextView) findViewById(R.id.txtCartSummary);
+	  final TextView txtCartSummary = (TextView) findViewById(R.id.txtCartSummary);
 	  fillListWithProducts(myCartArray);
-	  txtCartSummary.setText(GetMyCartSummary().toString());
+	  txtCartSummary.setText(getMyCartSummary().toString());
 	  if (myCartArray.isEmpty()){
 		  btnFinish.setEnabled(false);
 	  } else {
@@ -74,9 +88,111 @@ public class View_Cart extends Login  {
 				FinishYourOrder();
 			}
 		}
-	});
+	  });
+		//Paypal instatiation
+		PayPal pp = PayPal.getInstance();
+
+//		if (pp == null) {  // Test to see if the library is already initialized
+
+		// This main initialization call takes your Context, AppID, and target server
+		pp = PayPal.initWithAppID(this, "APP-80W284485P519543T", PayPal.ENV_SANDBOX);
+
+		// Required settings:
+
+		// Set the language for the library
+		pp.setLanguage("en_US");
+
+		// Generate the PayPal checkout button and save it for later use
+		launchPayPalButton = pp.getCheckoutButton(this, PayPal.BUTTON_278x43, CheckoutButton.TEXT_PAY);
+
+		// The OnClick listener for the checkout button
+		launchPayPalButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				// Create a basic PayPal payment
+				PayPalPayment payment = new PayPalPayment();
+
+				// Set the currency type
+				payment.setCurrencyType("EUR");
+
+				// Set the recipient for the payment (can be a phone number)
+				payment.setRecipient("aalexandrakis-fruitshop@hotmail.com");
+
+				// Set the payment amount, excluding tax and shipping costs
+				if (txtCartSummary.getText().toString().equals("0.0")){
+					showAlertDialog(getString(R.string.paymentError), getString(R.string.amount_must_not_be_empty));
+					launchPayPalButton.updateButton();
+				} else {
+					payment.setSubtotal(new BigDecimal(txtCartSummary.getText().toString()));
+
+					// Set the payment type--his can be PAYMENT_TYPE_GOODS,
+					// PAYMENT_TYPE_SERVICE, PAYMENT_TYPE_PERSONAL, or PAYMENT_TYPE_NONE
+					payment.setPaymentType(PayPal.PAYMENT_TYPE_SERVICE);
+					payment.setMerchantName("Fruit Shop Alexandrakis");
+					payment.setCustomID(settings.getString("Email", ""));
+					// PayPalInvoiceData can contain tax and shipping amounts, and an
+					// ArrayList of PayPalInvoiceItem that you can fill out.
+					// These are not required for any transaction.
+//						PayPalInvoiceData invoice = new PayPalInvoiceData();
+
+					// Set the tax amount
+//						invoice.setTax(new BigDecimal("23"));
+					Intent paypalIntent = PayPal.getInstance().checkout(payment, viewCart, new ResultDelegate(settings.getString("Email", "")));
+					startActivityForResult(paypalIntent, 1);
+				}
+			}
+		});
+
+		// Add the listener to the layout
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams (RelativeLayout.LayoutParams.WRAP_CONTENT,
+				RelativeLayout.LayoutParams.WRAP_CONTENT);
+//			params.addRule(LinearLayout.ALIGN_PARENT_BOTTOM);
+		params.topMargin = 20;
+		launchPayPalButton.setLayoutParams(params);
+		launchPayPalButton.setId(10001);
+
+		((RelativeLayout) findViewById(R.id.RelativeLayout1)).addView(launchPayPalButton);
+		((RelativeLayout) findViewById(R.id.RelativeLayout1)).setGravity(Gravity.CENTER_HORIZONTAL);
     }
-    
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		PayPalActivityResult(requestCode, resultCode, data);
+	}
+
+	public void PayPalActivityResult(int requestCode, int resultCode, Intent intent) {
+		if(requestCode != 1) {
+			return;
+		} else {
+//		    Toast.makeText(getActivity() ,resultTitle , Toast.LENGTH_SHORT).show();
+			if (resultTitle.equals("SUCCESS")){
+				showAlertDialog(getString(R.string.paymentOk), getString(R.string.payment_thank_you));
+				launchPayPalButton.updateButton();
+				finish();
+			} else {
+				showAlertDialog(getString(R.string.paymentError), resultInfo + "\n" + resultExtra);
+				launchPayPalButton.updateButton();
+			}
+//		    System.out.println("PayKey " + payKey);
+//		    System.out.println("Request Code  " + requestCode);
+		}
+	}
+
+	@Override
+	public void onResume() {
+		/**
+		 * The CheckoutButton has to be updated each time the Activity is
+		 * resumed, otherwise the onClickListener of CheckoutButton will not work
+		 **/
+		if (launchPayPalButton != null && (launchPayPalButton instanceof CheckoutButton))
+			launchPayPalButton.updateButton();
+		super.onResume();
+	}
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 	        ContextMenuInfo menuInfo) {
@@ -94,7 +210,7 @@ public class View_Cart extends Login  {
 	        myCartArray.remove(info.position);
 	        fillListWithProducts(myCartArray);
 	        TextView txtCartSummary = (TextView) findViewById(R.id.txtCartSummary);
-	        txtCartSummary.setText(GetMyCartSummary().toString());
+	        txtCartSummary.setText(getMyCartSummary().toString());
 	        return true;
 	    }
 	    return false;
@@ -168,7 +284,7 @@ public class View_Cart extends Login  {
 			
 		myCartArray.add(SelectedItem);
 		Log.i("MyCartAray", "Selected Item Added");
-		Float MyCartSummary = GetMyCartSummary();
+		Float MyCartSummary = getMyCartSummary();
 		//Toast.makeText(getApplicationContext(), "Your cart summary is " + MyCartSummary.toString(), Toast.LENGTH_LONG).show();
 		TextView txtCartSummary = (TextView) findViewById(R.id.txtCartSummary);
 		txtCartSummary.setText(MyCartSummary.toString());
@@ -232,7 +348,7 @@ public class View_Cart extends Login  {
 	
 	protected void FinishYourOrder(){
 		CreateOrderAsync CreateOrderAsyncObject = new CreateOrderAsync(this);
-		CreateOrderAsyncObject.execute(Commons.URL_COMPLETE_ORDER, settings.getString("Email", ""));
+		CreateOrderAsyncObject.execute(Commons.URL_COMPLETE_ORDER, String.valueOf(settings.getInt("Id", 0)));
 	}
 	
 	public void EmptyCart() {
@@ -277,38 +393,36 @@ class CreateOrderAsync extends AsyncTask<String, String, String>{
 
 		String rtnString = "";
 		HttpClient httpClient = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 30000);
-        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 30000);
+        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 0);
+        HttpConnectionParams.setSoTimeout(httpClient.getParams(), 0);
         HttpPost httpPost = new HttpPost(url_str);
         Log.i("HttpPost", "New HttpPost");
      // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("email", arg0[1]));
+		params.add(new BasicNameValuePair("custom", arg0[1]));
+		params.add(new BasicNameValuePair("txn_id" , "PAY ON DELIVERY"));
+		params.add(new BasicNameValuePair("num_cart_items" , String.valueOf(viewCart.myCartArray.size())));
+		params.add(new BasicNameValuePair("mc_gross" , String.valueOf(viewCart.getMyCartSummary())));
+		params.add(new BasicNameValuePair("payment_status" , "Completed"));
 		int i = 1;
 		for (Item item : viewCart.myCartArray){
 			params.add(new BasicNameValuePair("item_number" + String.valueOf(i), item.getItemCode().toString()));
+			params.add(new BasicNameValuePair("item_name" + String.valueOf(i), item.getItemDescr()));
 			params.add(new BasicNameValuePair("quantity" + String.valueOf(i), item.getItemQuantity().toString()));
+			params.add(new BasicNameValuePair("mc_gross" + String.valueOf(i), String.valueOf(item.getItemQuantity() * item.getItemPrice())));
+
 			i++;
 		}
-
-	    Log.i("List", "NameValuePair");    
         try {
 		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-	    httpPost.setHeader("Host", "aalexandrakis.freevar.com");
 		entity.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
 		entity.setContentEncoding("UTF-8");
 		entity.setChunked(true);
 	    httpPost.setEntity(entity);
 	    HttpResponse response;
-	    Log.i("response", "httpresponse");
 		try {
 			response = httpClient.execute(httpPost);
-			
-			BufferedReader br = null;
-			br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			rtnString = (String) br.readLine();
-			Log.i("ReadLine", rtnString);
-			br.close();
+			return String.valueOf(response.getStatusLine().getStatusCode());
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -332,10 +446,9 @@ class CreateOrderAsync extends AsyncTask<String, String, String>{
 	protected void onPreExecute() {
 		viewCart.pg.show();
 	}
-	protected void onPostExecute(String RtnString) {
-		Log.i("onPostExecute", RtnString);
+	protected void onPostExecute(String rtnString) {
 		viewCart.pg.dismiss();
-		if (RtnString.startsWith("1")){
+		if (rtnString.equals("200")){
 			viewCart.EmptyCart();
 		    Toast.makeText(viewCart.getApplicationContext(), "Your order uploaded successfully. Thank you.", Toast.LENGTH_LONG).show();
 		}

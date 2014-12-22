@@ -262,14 +262,14 @@ public class Login extends Activity  {
 	    forgotPasswordAsyncTaskAsync = (ForgotPasswordAsyncTask) new ForgotPasswordAsyncTask(this).execute(Commons.URL + "/resetPassword" , email);
 	 }
     
-    public Float GetMyCartSummary(){
+    public Float getMyCartSummary(){
     	Float MyCartSummary=Float.parseFloat("0.0");
     	int i;
-    	Log.d("GetMyCartSummary",String.valueOf(myCartArray.size()));
+    	Log.d("getMyCartSummary",String.valueOf(myCartArray.size()));
     	for (i=0;i< myCartArray.size();i++){
-    		Log.d("GetMyCartSummary", myCartArray.get(i).getItemDescr());
-    		Log.d("GetMyCartSummary", myCartArray.get(i).getItemPrice().toString());
-    		Log.d("GetMyCartSummary", myCartArray.get(i).getItemQuantity().toString());
+    		Log.d("getMyCartSummary", myCartArray.get(i).getItemDescr());
+    		Log.d("getMyCartSummary", myCartArray.get(i).getItemPrice().toString());
+    		Log.d("getMyCartSummary", myCartArray.get(i).getItemQuantity().toString());
     		MyCartSummary = MyCartSummary + (myCartArray.get(i).getItemPrice() * myCartArray.get(i).getItemQuantity());
     	}
     	return MyCartSummary;

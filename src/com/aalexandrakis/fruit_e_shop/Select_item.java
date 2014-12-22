@@ -166,7 +166,7 @@ public class Select_item extends Login  {
 			
 		myCartArray.add(SelectedItem);
 		Log.i("MyCartAray", "Selected Item Added");
-		Float MyCartSummary = GetMyCartSummary();
+		Float MyCartSummary = getMyCartSummary();
 		Toast.makeText(getApplicationContext(), "Your cart summary is " + MyCartSummary.toString(), Toast.LENGTH_LONG).show();
 		
 		Log.i("Aray Adapter", "Notify changes");
