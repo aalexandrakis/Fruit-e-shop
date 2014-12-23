@@ -1,14 +1,13 @@
 package com.aalexandrakis.fruit_e_shop;
 
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class OrderAdapter extends ArrayAdapter<Order> {
     private ArrayList<Order> objects;
@@ -31,14 +30,9 @@ public class OrderAdapter extends ArrayAdapter<Order> {
 	    	TextView txtOrderAmount = (TextView) v.findViewById(R.id.txtOrderAmount);
 	    	TextView txtOrderStatus = (TextView) v.findViewById(R.id.txtOrderStatus);
 	    	
-	    	Log.i("getView", "TextView Completed");
-	    	Log.i("Set order is", i.getOrderId().toString());
 	    	txtOrderId.setText(i.getOrderId().toString());
-	    	Log.i("Set Order Date", i.getOrderDate());
 	    	txtOrderDate.setText(i.getOrderDate());
-	    	Log.i("Set Order Amount", i.getOrderAmount().toString());
 	    	txtOrderAmount.setText(i.getOrderAmount().toString());
-	    	Log.i("Set Order Status", i.getOrderStatus());
 	    	txtOrderStatus.setText(i.getOrderStatus());
 	    }	
 	    return v;	

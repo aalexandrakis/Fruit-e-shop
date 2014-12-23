@@ -50,8 +50,12 @@ public class View_orders extends Login  {
 	  pgd.setTitle("Loading...");
 	  pgd.setMessage("Please wait to load data");
 	  setContentView(R.layout.view_orders);
-	  GetOrdersAsyncTask getOrdersAsyncTaskObject = new GetOrdersAsyncTask(this);
-	  getOrdersAsyncTaskObject.execute(Commons.URL + "/getOrders/" + String.valueOf(settings.getInt("Id", 0)));
+	  if (checkConnectivity()) {
+		  GetOrdersAsyncTask getOrdersAsyncTaskObject = new GetOrdersAsyncTask(this);
+		  getOrdersAsyncTaskObject.execute(Commons.URL + "/getOrders/" + String.valueOf(settings.getInt("Id", 0)));
+	  } else {
+		  showAlertDialog("Error", "No internet connection");
+	  }
     }
     
     @Override	 	
@@ -71,9 +75,8 @@ public class View_orders extends Login  {
 					long arg3) {
 				// TODO Auto-generated method stub
 				TextView txtOrderId = (TextView) arg1.findViewById(R.id.txtOrderId);
-				Log.e("PutExtr", txtOrderId.getText().toString());
 				Intent a = new Intent("com.aalexandrakis.fruit_e_shop.Ordered_items");
-				a.putExtra("OrderId", txtOrderId.getText().toString());
+				a.putExtra("orderId", txtOrderId.getText().toString());
 				startActivity(a);
 			}
 		});
@@ -100,20 +103,17 @@ class GetOrdersAsyncTask extends AsyncTask<String, ArrayList<Order>, ArrayList<O
 		protected ArrayList<Order> doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			try {
-				if (thisActivity.checkConnectivity()) {
-					HttpClient httpClient = new DefaultHttpClient();
-					HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 0);
-					HttpConnectionParams.setSoTimeout(httpClient.getParams(), 0);
-					HttpGet httpGet = new HttpGet(params[0]);
-					HttpResponse response = httpClient.execute(httpGet);
-					InputStream rtnStream = response.getEntity().getContent();
-					XmlPullParser xmlOrders = null;
-					xmlOrders = XmlPullParserFactory.newInstance().newPullParser();
-					xmlOrders.setInput(rtnStream, null);
-					orders = this.fillStringArray(xmlOrders);
-					return orders;
-				}
-
+				HttpClient httpClient = new DefaultHttpClient();
+				HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 0);
+				HttpConnectionParams.setSoTimeout(httpClient.getParams(), 0);
+				HttpGet httpGet = new HttpGet(params[0]);
+				HttpResponse response = httpClient.execute(httpGet);
+				InputStream rtnStream = response.getEntity().getContent();
+				XmlPullParser xmlOrders = null;
+				xmlOrders = XmlPullParserFactory.newInstance().newPullParser();
+				xmlOrders.setInput(rtnStream, null);
+				orders = this.fillStringArray(xmlOrders);
+				return orders;
 			} catch (XmlPullParserException e) {
 					// 	TODO Auto-generated catch block
 					//e.printStackTrace();

@@ -26,9 +26,6 @@ public class Item {
     public Integer getItemCode(){
  	   return ItemCode;
     }
-    public void setItemCode(Integer ItemCode){
- 	   this.ItemCode=ItemCode;
-    }
     public String getItemDescr(){
   	   return ItemDescr;
      }
