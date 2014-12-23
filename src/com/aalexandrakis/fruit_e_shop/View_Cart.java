@@ -134,7 +134,7 @@ public class View_Cart extends Login  {
 					ArrayList<PayPalInvoiceItem> list = new ArrayList<PayPalInvoiceItem>();
 					for (Item item : myCartArray){
 						PayPalInvoiceItem ppItem = new PayPalInvoiceItem();
-						ppItem.setID(item.getItemCode().toString());
+						ppItem.setID(String.valueOf(item.getItemCode()));
 						ppItem.setName(item.getItemDescr());
 						ppItem.setQuantity(Math.round(item.getItemQuantity()));
 						ppItem.setUnitPrice(new BigDecimal(item.getItemPrice()));
