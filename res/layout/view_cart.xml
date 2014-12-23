@@ -1,13 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/RelativeLayout1"
+    android:id="@+id/viewCartLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/green"
     android:orientation="vertical"
     android:overScrollMode="always"
     tools:context=".Select_item"
-    tools:ignore="ContentDescription" >
+    tools:ignore="ContentDescription" android:weightSum="1">
 
     <TextView
         android:id="@+id/txtViewCartHeader"
@@ -20,37 +20,38 @@
         android:textColor="@color/white"
         android:textSize="30sp" />
 
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/txtHeadCartSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/CartSummary" />
+    <TextView
+            android:id="@+id/txtCartSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/txtHeadCartSummary"
+            android:layout_toRightOf="@id/txtHeadCartSummary"
+            android:gravity="right"
+            android:textColor="@color/yellow" />
+    </RelativeLayout>
+
+    <LinearLayout
+            android:id="@+id/viewCartButtonsLayout"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnFinishOrder"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/payOnDelivery" />
+    </LinearLayout>
     <ListView
         android:id="@+id/CartList"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/btnFinishOrder"
-        android:layout_below="@+id/txtHeadCartSummary" >
-
+        android:layout_height="wrap_content">
     </ListView>
 
-    <TextView
-        android:id="@+id/txtHeadCartSummary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/txtViewCartHeader"
-        android:text="@string/CartSummary" />
-
-    <Button
-        android:id="@+id/btnFinishOrder"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/FinishOrder" />
-
-    <TextView
-        android:id="@+id/txtCartSummary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/txtHeadCartSummary"
-        android:layout_toRightOf="@id/txtHeadCartSummary"
-        android:gravity="right"
-        android:textColor="@color/yellow" />
-
-</RelativeLayout>
+</LinearLayout>

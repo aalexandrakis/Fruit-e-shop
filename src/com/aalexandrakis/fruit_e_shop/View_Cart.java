@@ -13,9 +13,7 @@ import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.*;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import com.paypal.android.MEP.CheckoutButton;
-import com.paypal.android.MEP.PayPal;
-import com.paypal.android.MEP.PayPalPayment;
+import com.paypal.android.MEP.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -121,22 +119,33 @@ public class View_Cart extends Login  {
 				payment.setRecipient("aalexandrakis-fruitshop@hotmail.com");
 
 				// Set the payment amount, excluding tax and shipping costs
-				if (txtCartSummary.getText().toString().equals("0.0")){
-					showAlertDialog(getString(R.string.paymentError), getString(R.string.amount_must_not_be_empty));
+				if (myCartArray.size() == 0){
+					showAlertDialog(getString(R.string.paymentError), getString(R.string.cart_is_empty));
 					launchPayPalButton.updateButton();
 				} else {
 					payment.setSubtotal(new BigDecimal(txtCartSummary.getText().toString()));
 
 					// Set the payment type--his can be PAYMENT_TYPE_GOODS,
-					// PAYMENT_TYPE_SERVICE, PAYMENT_TYPE_PERSONAL, or PAYMENT_TYPE_NONE
-					payment.setPaymentType(PayPal.PAYMENT_TYPE_SERVICE);
+					payment.setPaymentType(PayPal.PAYMENT_TYPE_GOODS);
 					payment.setMerchantName("Fruit Shop Alexandrakis");
-					payment.setCustomID(settings.getString("Email", ""));
+					payment.setCustomID(String.valueOf(settings.getInt("Id", 0)));
 					// PayPalInvoiceData can contain tax and shipping amounts, and an
 					// ArrayList of PayPalInvoiceItem that you can fill out.
+					ArrayList<PayPalInvoiceItem> list = new ArrayList<PayPalInvoiceItem>();
+					for (Item item : myCartArray){
+						PayPalInvoiceItem ppItem = new PayPalInvoiceItem();
+						ppItem.setID(item.getItemCode().toString());
+						ppItem.setName(item.getItemDescr());
+						ppItem.setQuantity(Math.round(item.getItemQuantity()));
+						ppItem.setUnitPrice(new BigDecimal(item.getItemPrice()));
+						ppItem.setTotalPrice(new BigDecimal(item.getItemSummary()));
+						list.add(ppItem);
+					}
+					PayPalInvoiceData ppData = new PayPalInvoiceData();
+					ppData.setInvoiceItems(list);
+					payment.setInvoiceData(ppData);
 					// These are not required for any transaction.
 //						PayPalInvoiceData invoice = new PayPalInvoiceData();
-
 					// Set the tax amount
 //						invoice.setTax(new BigDecimal("23"));
 					Intent paypalIntent = PayPal.getInstance().checkout(payment, viewCart, new ResultDelegate(settings.getString("Email", "")));
@@ -146,15 +155,17 @@ public class View_Cart extends Login  {
 		});
 
 		// Add the listener to the layout
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams (RelativeLayout.LayoutParams.WRAP_CONTENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
-//			params.addRule(LinearLayout.ALIGN_PARENT_BOTTOM);
-		params.topMargin = 20;
+//		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams (RelativeLayout.LayoutParams.FILL_PARENT,
+//				RelativeLayout.LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams (LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+//		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//		params.topMargin = 20;
+		params.bottomMargin = 20;
 		launchPayPalButton.setLayoutParams(params);
 		launchPayPalButton.setId(10001);
-
-		((RelativeLayout) findViewById(R.id.RelativeLayout1)).addView(launchPayPalButton);
-		((RelativeLayout) findViewById(R.id.RelativeLayout1)).setGravity(Gravity.CENTER_HORIZONTAL);
+		((LinearLayout) findViewById(R.id.viewCartButtonsLayout)).addView(launchPayPalButton);
+		((LinearLayout) findViewById(R.id.viewCartButtonsLayout)).setGravity(Gravity.CENTER_HORIZONTAL);
     }
 
 	@Override
