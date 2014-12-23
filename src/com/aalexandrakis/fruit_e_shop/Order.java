@@ -5,7 +5,10 @@ public class Order {
     private String OrderDate;
     private Float OrderAmount;
     private String OrderStatus;
-    
+
+    public Order(){
+
+    }
     public Order(Integer I, String D, Float A, String S) {
     	this.OrderId = I;
     	this.OrderDate = D;
