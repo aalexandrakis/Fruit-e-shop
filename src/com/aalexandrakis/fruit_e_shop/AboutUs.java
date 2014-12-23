@@ -15,7 +15,7 @@ import java.util.Locale;
 
 
 
-public class AboutUs1 extends Login  {
+public class AboutUs extends Login  {
     TextView txtAboutUs;
     
    @SuppressWarnings("deprecation")
