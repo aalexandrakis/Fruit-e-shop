@@ -21,10 +21,10 @@ public class ResultDelegate implements PayPalResultDelegate, Serializable {
      *            the status of the transaction
      */
     public void onPaymentSucceeded(String payKey, String paymentStatus) {
-        View_Cart.resultTitle = "SUCCESS";
-        View_Cart.resultInfo = "You have successfully completed your transaction.";
-        View_Cart.resultExtra = "Key: " + payKey;
-        View_Cart.payKey = payKey;
+        ViewCart.resultTitle = "SUCCESS";
+        ViewCart.resultInfo = "You have successfully completed your transaction.";
+        ViewCart.resultExtra = "Key: " + payKey;
+        ViewCart.payKey = payKey;
     }
 
     /**
@@ -43,9 +43,9 @@ public class ResultDelegate implements PayPalResultDelegate, Serializable {
      */
     public void onPaymentFailed(String paymentStatus, String correlationID,
                                 String payKey, String errorID, String errorMessage) {
-        View_Cart.resultTitle = "FAILURE";
-        View_Cart.resultInfo = errorMessage;
-        View_Cart.resultExtra = "Error ID: " + errorID
+        ViewCart.resultTitle = "FAILURE";
+        ViewCart.resultInfo = errorMessage;
+        ViewCart.resultExtra = "Error ID: " + errorID
                 + "\nCorrelation ID: " + correlationID + "\nPay Key: " + payKey;
     }
 
@@ -56,8 +56,8 @@ public class ResultDelegate implements PayPalResultDelegate, Serializable {
      *            the status of the transaction
      */
     public void onPaymentCanceled(String paymentStatus) {
-        View_Cart.resultTitle = "CANCELED";
-        View_Cart.resultInfo = "The transaction has been cancelled.";
-        View_Cart.resultExtra = "";
+        ViewCart.resultTitle = "CANCELED";
+        ViewCart.resultInfo = "The transaction has been cancelled.";
+        ViewCart.resultExtra = "";
     }
 }

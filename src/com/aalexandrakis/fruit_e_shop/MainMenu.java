@@ -16,7 +16,7 @@ public class MainMenu extends Login  {
 	//public boolean onCreateOptionsMenu(Menu menu) {
 	//	super.onCreateOptionsMenu(menu);
 	//	getMenuInflater().inflate(R.menu.choice_menu_main, menu);
-	//	menu.findItem(R.id.ViewMyCart).setIntent(new Intent("com.aalexandrakis.fruit_e_shop.View_Cart"));
+	//	menu.findItem(R.id.ViewMyCart).setIntent(new Intent("com.aalexandrakis.fruit_e_shop.ViewCart"));
 	 //   return true;
 	//}
 	
@@ -25,7 +25,7 @@ public class MainMenu extends Login  {
 	 super.onCreate(savedInstanceState);
 	   setContentView(R.layout.list_main_menu_item);
 	   ListView lstView = (ListView) findViewById(R.id.CartList);
-	   String[] listItems ={getResources().getString(R.string.Aboutus),
+	   String[] listItems ={getResources().getString(R.string.AboutUs),
 			   getResources().getString(R.string.contactus),
 			   getResources().getString(R.string.neworder),
 			   getResources().getString(R.string.chgaccount),
@@ -44,21 +44,21 @@ public class MainMenu extends Login  {
 			// TODO Auto-generated method stub
 			TextView txtView = (TextView) arg1;
 			String itemClicked = txtView.getText().toString();
-			if (itemClicked.equals(getResources().getString(R.string.Aboutus))){
-				Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.Aboutus");
+			if (itemClicked.equals(getResources().getString(R.string.AboutUs))){
+				Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.AboutUs");
         		startActivity(nextActivity);
 			}
             if (itemClicked.equals(getResources().getString(R.string.contactus))){
-            	Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.Contactus");
+            	Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.ContactUs");
             	startActivity(nextActivity); 	
 			}
             if (itemClicked.equals(getResources().getString(R.string.neworder))){
-            	Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.New_order");
+            	Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.NewOrder");
         		startActivity(nextActivity);
 			}
             if (itemClicked.equals(getResources().getString(R.string.chgaccount))){
             	if (checkConnectivity()==true){
-            		Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.Update_user");
+            		Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.UpdateUser");
             		startActivity(nextActivity);
             	} else {
             		showAlertDialog("Connectivity Error", "No Internet Connection");
@@ -73,16 +73,16 @@ public class MainMenu extends Login  {
             	}
 			}
             if (itemClicked.equals(getResources().getString(R.string.chgsettings))){
-            	Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.Settings_Activity");
+            	Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.SettingsActivity");
         		startActivity(nextActivity);
 			}
             if (itemClicked.equals(getResources().getString(R.string.vieworder))){
-            	Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.View_orders");
+            	Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.ViewOrders");
         		startActivity(nextActivity);
 				
 			}
             if (itemClicked.equals(getResources().getString(R.string.ViewCart))){
-            	Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.View_Cart");
+            	Intent nextActivity= new Intent("com.aalexandrakis.fruit_e_shop.ViewCart");
         		startActivity(nextActivity);
 				
 			}

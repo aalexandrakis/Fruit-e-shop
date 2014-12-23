@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -30,7 +29,7 @@ import java.util.ArrayList;
 //import android.widget.TextView;
 
 
-public class Select_item extends Login  {
+public class SelectItem extends Login  {
 	private ItemAdapter adapt;
 	public ProgressDialog pgd;
 	GetItemsAsyncTask getItemsAsyncTask;
@@ -115,8 +114,8 @@ public class Select_item extends Login  {
 				TextView txtItemPrice = (TextView) arg1.findViewById(R.id.txtItemPrice);
 				TextView txtItemQuantity = (TextView) arg1.findViewById(R.id.txtItemQuantity);
 				TextView txtItemSummary = (TextView) arg1.findViewById(R.id.txtItemSummary);
-				Log.i("arg2", String.valueOf(arg2));
-				Log.i("arg3", String.valueOf(arg3));
+				//Log.i("arg2", String.valueOf(arg2));
+				//Log.i("arg3", String.valueOf(arg3));
 				//////
 				Float Quantity;
 				Float Summary;
@@ -144,9 +143,9 @@ public class Select_item extends Login  {
 	}
 
 	private void UpdateAdapter(int pos, Float Quantity){
-		Log.i("Update Adapter", "Item Dialog Ends Here");
-	    Log.i("OnClick-Position", String.valueOf(pos));
-	    Log.i("OnClick-Quantity", Quantity.toString());
+		//Log.i("Update Adapter", "Item Dialog Ends Here");
+	   // Log.i("OnClick-Position", String.valueOf(pos));
+	   // Log.i("OnClick-Quantity", Quantity.toString());
         
 	    if (Quantity == null || Quantity == 0.0){
 	    	return;
@@ -159,17 +158,17 @@ public class Select_item extends Login  {
 		adapt.notifyDataSetChanged();
 		
 		if (!myCartArray.isEmpty() && myCartArray.contains(SelectedItem)){
-			Log.i("myCartArray", "Contains Selected Item");
+			//Log.i("myCartArray", "Contains Selected Item");
 			myCartArray.remove(SelectedItem);
-			Log.i("MyCartAray", "SelectedItem Removed");
+			//Log.i("MyCartAray", "SelectedItem Removed");
 		}
 			
 		myCartArray.add(SelectedItem);
-		Log.i("MyCartAray", "Selected Item Added");
+		//Log.i("MyCartAray", "Selected Item Added");
 		Float MyCartSummary = getMyCartSummary();
 		Toast.makeText(getApplicationContext(), "Your cart summary is " + MyCartSummary.toString(), Toast.LENGTH_LONG).show();
 		
-		Log.i("Aray Adapter", "Notify changes");
+		//Log.i("Aray Adapter", "Notify changes");
 	}
 	
 	private void ShowItemDialog(Item SelectedItem, int ItPos){
@@ -231,7 +230,7 @@ public class Select_item extends Login  {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.choice_menu_items, menu);
-		menu.findItem(R.id.ViewMyCart).setIntent(new Intent("com.aalexandrakis.fruit_e_shop.View_Cart"));
+		menu.findItem(R.id.ViewMyCart).setIntent(new Intent("com.aalexandrakis.fruit_e_shop.ViewCart"));
 		menu.findItem(R.id.EmptyCart).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 			
 			@Override
@@ -254,10 +253,10 @@ public class Select_item extends Login  {
 	private String url_getItems;
 	private Integer CatId;
 	private ArrayList<Item> Items = new ArrayList<Item>();
-	public Select_item ThisActivity;
+	public SelectItem ThisActivity;
 
 
-	public GetItemsAsyncTask(Select_item a){
+	public GetItemsAsyncTask(SelectItem a){
 		ThisActivity = a;
 	}
 
@@ -282,16 +281,16 @@ public class Select_item extends Login  {
 			return Items;
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			Log.i("doInBackground-cpe", e.getMessage());
+			e.printStackTrace();;
+			//Log.i("doInBackground-cpe", e.getMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			Log.i("doInBackground-ioe", e.getMessage());
+			e.printStackTrace();;
+			//Log.i("doInBackground-ioe", e.getMessage());
 		} catch (XmlPullParserException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			Log.i("doInBackground-xppe", e.getMessage());
+			e.printStackTrace();;
+			//Log.i("doInBackground-xppe", e.getMessage());
 			ThisActivity.showAlertDialog("Error", "Data not found. Please try later");
 			this.cancel(true);
 		}
@@ -342,7 +341,7 @@ public class Select_item extends Login  {
 
 	@Override
     protected void onPostExecute(ArrayList<Item> Items) {
-		Log.i("onPostExecute", "onPostExecute");
+		//Log.i("onPostExecute", "onPostExecute");
 		//Log.i("fillListWithProducts", Items.get(1).getItemDescr());
 		ThisActivity.fillListWithProducts(Items);
 		ThisActivity.pgd.dismiss();

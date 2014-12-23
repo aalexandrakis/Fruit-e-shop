@@ -144,7 +144,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int aboutus=0x7f040000;
     }
     public static final class string {
-        public static final int Aboutus=0x7f06000c;
+        public static final int AboutUs =0x7f06000c;
         public static final int Address=0x7f06002d;
         public static final int CartSummary=0x7f060027;
         public static final int Category_Code=0x7f06001d;

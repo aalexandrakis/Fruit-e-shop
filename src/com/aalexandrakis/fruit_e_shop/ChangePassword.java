@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -109,9 +108,9 @@ public class ChangePassword extends Login  {
 
 
     protected boolean ValidateRoutine() {
-        Log.i("Validate", "OK");
+       // Log.i("Validate", "OK");
         if (checkConnectivity()==false){
-            Log.i("ShowAlert", "OK");
+           // Log.i("ShowAlert", "OK");
             showAlertDialog("Connectivity Error", "No Internet Connection");
             return false;
         }

@@ -1,14 +1,13 @@
 package com.aalexandrakis.fruit_e_shop;
 
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class ItemAdapter extends ArrayAdapter<Item> {
     private ArrayList<Item> objects;
@@ -32,18 +31,18 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 	    	TextView txtItemPrice = (TextView) v.findViewById(R.id.txtItemPrice);
 	    	TextView txtItemQuantity = (TextView) v.findViewById(R.id.txtItemQuantity);
 	    	TextView txtItemSummary = (TextView) v.findViewById(R.id.txtItemSummary);
-	    	Log.i("getView", "TextView Completed");
-	    	Log.i("Set Item Code", i.getItemCode().toString());
+	    	//Log.i("getView", "TextView Completed");
+	    	//Log.i("Set Item Code", i.getItemCode().toString());
 	    	txtItemCode.setText(i.getItemCode().toString());
-	    	Log.i("Set Item Descr", i.getItemDescr());
+	    	//Log.i("Set Item Descr", i.getItemDescr());
 	    	txtItemDescr.setText(i.getItemDescr());
-	    	Log.i("Set Item Mm", i.getItemMm());
+	    	//Log.i("Set Item Mm", i.getItemMm());
 	    	txtItemMm.setText(i.getItemMm());
-	    	Log.i("Set Item Price", i.getItemPrice().toString());
+	    	//Log.i("Set Item Price", i.getItemPrice().toString());
 	    	txtItemPrice.setText(i.getItemPrice().toString());
-	    	Log.i("Set Item Quantity", i.getItemQuantity().toString());
+	    	//Log.i("Set Item Quantity", i.getItemQuantity().toString());
 	    	txtItemQuantity.setText(i.getItemQuantity().toString());
-	    	Log.i("Set Item Summary", i.getItemSummary().toString());
+	    	//Log.i("Set Item Summary", i.getItemSummary().toString());
 	    	txtItemSummary.setText(i.getItemSummary().toString());    
 	    	
 	    }	

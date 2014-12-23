@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.*;
@@ -34,7 +33,7 @@ import java.util.List;
 //import android.widget.TextView;
 
 
-public class View_Cart extends Login  {
+public class ViewCart extends Login  {
 
 	public static String resultTitle;
 	public static String resultInfo;
@@ -46,7 +45,7 @@ public class View_Cart extends Login  {
 	private ItemAdapter adapt;
 	public ProgressDialog pgd;
 
-	private View_Cart viewCart = this;
+	private ViewCart viewCart = this;
 
 	protected void onPause() {
 	    super.onPause();
@@ -249,8 +248,8 @@ public class View_Cart extends Login  {
 				TextView txtItemPrice = (TextView) arg1.findViewById(R.id.txtItemPrice);
 				TextView txtItemQuantity = (TextView) arg1.findViewById(R.id.txtItemQuantity);
 				TextView txtItemSummary = (TextView) arg1.findViewById(R.id.txtItemSummary);
-				Log.i("arg2", String.valueOf(arg2));
-				Log.i("arg3", String.valueOf(arg3));
+				//Log.i("arg2", String.valueOf(arg2));
+				//Log.i("arg3", String.valueOf(arg3));
 				//////
 				Float Quantity;
 				Float Summary;
@@ -278,9 +277,9 @@ public class View_Cart extends Login  {
 	}
 
 	private void UpdateAdapter(int pos, Float Quantity){
-		Log.i("Update Adapter", "Item Dialog Ends Here");
-	    Log.i("OnClick-Position", String.valueOf(pos));
-	    Log.i("OnClick-Quantity", Quantity.toString());
+		//Log.i("Update Adapter", "Item Dialog Ends Here");
+	   // Log.i("OnClick-Position", String.valueOf(pos));
+	   // Log.i("OnClick-Quantity", Quantity.toString());
 
 		Item SelectedItem = adapt.getItem(pos);
 
@@ -289,19 +288,19 @@ public class View_Cart extends Login  {
 		adapt.notifyDataSetChanged();
 		
 		if (!myCartArray.isEmpty() && myCartArray.contains(SelectedItem)){
-			Log.i("myCartArray", "Contains Selected Item");
+			//Log.i("myCartArray", "Contains Selected Item");
 			myCartArray.remove(SelectedItem);
-			Log.i("MyCartAray", "SelectedItem Removed");
+			//Log.i("MyCartAray", "SelectedItem Removed");
 		}
 			
 		myCartArray.add(SelectedItem);
-		Log.i("MyCartAray", "Selected Item Added");
+		//Log.i("MyCartAray", "Selected Item Added");
 		Float MyCartSummary = getMyCartSummary();
 		//Toast.makeText(getApplicationContext(), "Your cart summary is " + MyCartSummary.toString(), Toast.LENGTH_LONG).show();
 		TextView txtCartSummary = (TextView) findViewById(R.id.txtCartSummary);
 		txtCartSummary.setText(MyCartSummary.toString());
 		
-		Log.i("Aray Adapter", "Notify changes");
+		//Log.i("Aray Adapter", "Notify changes");
 	}
 	
 	private void ShowItemDialog(Item SelectedItem, int ItPos){
@@ -392,9 +391,9 @@ public class View_Cart extends Login  {
 
 ////////////////////////////////////////////////////////////////////////
 class CreateOrderAsync extends AsyncTask<String, String, String>{
-    public View_Cart viewCart;
+    public ViewCart viewCart;
    
-	CreateOrderAsync(View_Cart a){
+	CreateOrderAsync(ViewCart a){
     	viewCart = a;
     }
 	
@@ -408,7 +407,7 @@ class CreateOrderAsync extends AsyncTask<String, String, String>{
         HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 0);
         HttpConnectionParams.setSoTimeout(httpClient.getParams(), 0);
         HttpPost httpPost = new HttpPost(url_str);
-        Log.i("HttpPost", "New HttpPost");
+       // Log.i("HttpPost", "New HttpPost");
      // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("custom", arg0[1]));
@@ -438,20 +437,20 @@ class CreateOrderAsync extends AsyncTask<String, String, String>{
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.i("CPE", e.getMessage());
+			//Log.i("CPE", e.getMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.i("IOE", e.getMessage());
+			//Log.i("IOE", e.getMessage());
 		}
 	    
 		}
         catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.i("UEE", e.getMessage());
+			//Log.i("UEE", e.getMessage());
 	    }
-		Log.i("ReturnValue", rtnString);
+		//Log.i("ReturnValue", rtnString);
 		return  rtnString.trim();
 	}
 	

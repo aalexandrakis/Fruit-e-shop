@@ -25,7 +25,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 @SuppressLint("NewApi")
-public class New_order extends Login {
+public class NewOrder extends Login {
 	
 
 	@Override
@@ -33,7 +33,7 @@ public class New_order extends Login {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.choice_menu_categories, menu);
 		menu.findItem(R.id.ViewMyCart).setIntent(
-				new Intent("com.aalexandrakis.fruit_e_shop.View_Cart"));
+				new Intent("com.aalexandrakis.fruit_e_shop.ViewCart"));
 		menu.findItem(R.id.EmptyCart).setOnMenuItemClickListener(
 				new MenuItem.OnMenuItemClickListener() {
 
@@ -70,8 +70,8 @@ public class New_order extends Login {
 	}
 
 	public void fillListWithCategories(ArrayList<Category> CategoriesArray) {
-		Log.i("FillListWithCategories", CategoriesArray.get(0)
-				.getCategoryCode().toString());
+		//Log.i("FillListWithCategories", CategoriesArray.get(0)
+//				.getCategoryCode().toString());
 		ListView lstView = (ListView) findViewById(R.id.CartList);
 		CategoryAdapter adapt = new CategoryAdapter(this,
 				R.layout.list_category_item, CategoriesArray);
@@ -85,7 +85,7 @@ public class New_order extends Login {
 						.findViewById(R.id.txtCategoryCode);
 				String CategoryCodeText = txtView.getText().toString();
 				Intent nextactivity = new Intent(
-						"com.aalexandrakis.fruit_e_shop.Select_item");
+						"com.aalexandrakis.fruit_e_shop.SelectItem");
 				nextactivity.putExtra("CatId",
 						Integer.parseInt(CategoryCodeText));
 				startActivity(nextactivity);
@@ -99,10 +99,10 @@ public class New_order extends Login {
 
 class GetCategories extends AsyncTask<String, ArrayList<Category>, ArrayList<Category>> {
 
-	New_order mainActivity;
+	NewOrder mainActivity;
 	ProgressDialog pgd;
 		
-	public GetCategories(New_order mainActivity) {
+	public GetCategories(NewOrder mainActivity) {
 		super();
 		this.mainActivity = mainActivity;
 	}

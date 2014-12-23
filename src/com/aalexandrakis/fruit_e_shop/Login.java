@@ -126,7 +126,7 @@ public class Login extends Activity  {
    	       @Override
            public void onClick(View arg0) {
    	    	if (checkConnectivity()==true){
-   	    	   Intent a = new Intent("com.aalexandrakis.fruit_e_shop.New_user");
+   	    	   Intent a = new Intent("com.aalexandrakis.fruit_e_shop.NewUser");
 		        startActivity(a);
         	} else {
         		showAlertDialog("Connectivity Error", "No Internet Connection");
@@ -305,10 +305,10 @@ public class Login extends Activity  {
 
 
 class LoginAsyncTask extends AsyncTask<String, JSONObject, JSONObject>{
-    private Login ThisActivity;
+    private Login thisActivity;
    
 	LoginAsyncTask(Login a){
-    	ThisActivity = a;
+    	thisActivity = a;
     }
 	
 	@Override
@@ -317,12 +317,12 @@ class LoginAsyncTask extends AsyncTask<String, JSONObject, JSONObject>{
         HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 30000);
         HttpConnectionParams.setSoTimeout(httpClient.getParams(), 30000);
         HttpPost httpPost = new HttpPost(arg0[0]);
-        Log.d("HttpPost", "New HttpPost");
+       // Log.d("HttpPost", "New HttpPost");
      // Building Parameters
         List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("email", arg0[1]));
 	        params.add(new BasicNameValuePair("password", Commons.encryptPassword(arg0[2])));
-	    Log.d("List", "NameValuePair");    
+	   // Log.d("List", "NameValuePair");
         try {
 		UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
 	    entity.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
@@ -367,14 +367,14 @@ class LoginAsyncTask extends AsyncTask<String, JSONObject, JSONObject>{
 	}
 	
 	protected void onPreExecute() {
-		ThisActivity.pg.show();
+		thisActivity.pg.show();
 
 	}
 	protected void onPostExecute(JSONObject jsonCust) {
-		Log.d("SaveTo", ThisActivity.settings.getString("SaveTo", ThisActivity.getResources().getString(R.string.SaveToMemory)));
+		Log.d("SaveTo", thisActivity.settings.getString("SaveTo", thisActivity.getResources().getString(R.string.SaveToMemory)));
 
-		ThisActivity.pg.dismiss();
-  		ThisActivity.LoginRoutine(jsonCust);
+		thisActivity.pg.dismiss();
+  		thisActivity.LoginRoutine(jsonCust);
   		
   		try {
 			this.finalize();

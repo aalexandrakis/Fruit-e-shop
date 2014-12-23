@@ -50,7 +50,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/imageView1"
         android:gravity="center_horizontal"
-        android:text="@string/Aboutus"
+        android:text="@string/AboutUs"
         android:textAlignment="center"
         android:textSize="30sp" />
 

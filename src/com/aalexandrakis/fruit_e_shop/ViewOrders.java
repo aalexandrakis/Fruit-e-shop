@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 //import android.widget.TextView;
 
 
-public class View_orders extends Login  {
+public class ViewOrders extends Login  {
 	private OrderAdapter adapt;
 	public ProgressDialog pgd;
 	GetOrdersAsyncTask getOrdersAsyncTaskObject;
@@ -75,7 +74,7 @@ public class View_orders extends Login  {
 					long arg3) {
 				// TODO Auto-generated method stub
 				TextView txtOrderId = (TextView) arg1.findViewById(R.id.txtOrderId);
-				Intent a = new Intent("com.aalexandrakis.fruit_e_shop.Ordered_items");
+				Intent a = new Intent("com.aalexandrakis.fruit_e_shop.OrderedItems");
 				a.putExtra("orderId", txtOrderId.getText().toString());
 				startActivity(a);
 			}
@@ -90,11 +89,11 @@ public class View_orders extends Login  {
 class GetOrdersAsyncTask extends AsyncTask<String, ArrayList<Order>, ArrayList<Order>> {
 		private InputStream intStrm;
 		private ArrayList<Order> orders = new ArrayList<Order>();
-		public View_orders thisActivity;
+		public ViewOrders thisActivity;
 		DateFormat dfFormat = new SimpleDateFormat("dd-MM-yyyy");
 		DateFormat dfParse = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
-		public GetOrdersAsyncTask(View_orders a){
+		public GetOrdersAsyncTask(ViewOrders a){
 			thisActivity = a;
 		}
 
@@ -116,18 +115,18 @@ class GetOrdersAsyncTask extends AsyncTask<String, ArrayList<Order>, ArrayList<O
 				return orders;
 			} catch (XmlPullParserException e) {
 					// 	TODO Auto-generated catch block
-					//e.printStackTrace();
-					Log.i("doInBackground-xppe", e.getMessage());
+					e.printStackTrace();;
+					//Log.i("doInBackground-xppe", e.getMessage());
 					thisActivity.showAlertDialog("Error", "Data not found. Please try later");
 					this.cancel(true);
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				Log.i("doInBackground-cpe", e.getMessage());
+				e.printStackTrace();;
+				//Log.i("doInBackground-cpe", e.getMessage());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				Log.i("doInBackground-ioe", e.getMessage());
+				e.printStackTrace();;
+				//Log.i("doInBackground-ioe", e.getMessage());
 			}
 			return null;
 		}

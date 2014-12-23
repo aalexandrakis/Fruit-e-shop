@@ -9,10 +9,10 @@ import java.util.Formatter;
  * Created by aalexandrakis on 16/12/2014.
  */
 public class Commons {
-    public static String URL = "http://fruitshop-aalexandrakis.rhcloud.com/rest/services";
-    public static String URL_COMPLETE_ORDER = "http://fruitshop-aalexandrakis.rhcloud.com/completeOrder";
-//    public static String URL = "http://192.168.173.1:9090/fruitShopWicket/rest/services";
-//    public static String URL_COMPLETE_ORDER = "http://192.168.173.1:9090/fruitShopWicket/completeOrder";
+//    public static String URL = "http://fruitshop-aalexandrakis.rhcloud.com/rest/services";
+//    public static String URL_COMPLETE_ORDER = "http://fruitshop-aalexandrakis.rhcloud.com/completeOrder";
+    public static String URL = "http://192.168.173.1:9090/fruitShopWicket/rest/services";
+    public static String URL_COMPLETE_ORDER = "http://192.168.173.1:9090/fruitShopWicket/completeOrder";
 
     public static String encryptPassword(String password) {
         String sha1 = "";

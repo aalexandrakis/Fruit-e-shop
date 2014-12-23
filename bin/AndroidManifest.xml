@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.aalexandrakis.fruit_e_shop.Splash_screen"
+            android:name=".SplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme" >
@@ -53,57 +53,57 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:theme="@style/FullscreenTheme" android:name="com.aalexandrakis.fruit_e_shop.New_order" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
+        <activity android:theme="@style/FullscreenTheme" android:name=".NewOrder" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.aalexandrakis.fruit_e_shop.New_order"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:theme="@style/FullscreenTheme" android:name="com.aalexandrakis.fruit_e_shop.Select_item" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
+        <activity android:theme="@style/FullscreenTheme" android:name=".SelectItem" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.aalexandrakis.fruit_e_shop.Select_item"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:theme="@style/FullscreenTheme" android:name="com.aalexandrakis.fruit_e_shop.View_Cart" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
+        <activity android:theme="@style/FullscreenTheme" android:name=".ViewCart" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.aalexandrakis.fruit_e_shop.View_Cart"/>
+                <action android:name="com.aalexandrakis.fruit_e_shop.ViewCart"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:theme="@style/FullscreenTheme" android:name="com.aalexandrakis.fruit_e_shop.New_user" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
+        <activity android:theme="@style/FullscreenTheme" android:name=".NewUser" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.aalexandrakis.fruit_e_shop.New_user"/>
+                <action android:name="com.aalexandrakis.fruit_e_shop.Newuser"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:theme="@style/FullscreenTheme" android:name="com.aalexandrakis.fruit_e_shop.Update_user" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
+        <activity android:theme="@style/FullscreenTheme" android:name=".UpdateUser" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.aalexandrakis.fruit_e_shop.Update_user"/>
+                <action android:name="com.aalexandrakis.fruit_e_shop.UpdateUser"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:theme="@style/FullscreenTheme" android:name="com.aalexandrakis.fruit_e_shop.View_orders" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
+        <activity android:theme="@style/FullscreenTheme" android:name=".ViewOrders" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.aalexandrakis.fruit_e_shop.View_orders"/>
+                <action android:name="com.aalexandrakis.fruit_e_shop.ViewOrders"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:theme="@style/FullscreenTheme" android:name="com.aalexandrakis.fruit_e_shop.Ordered_items" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
+        <activity android:theme="@style/FullscreenTheme" android:name=".OrderedItems" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.aalexandrakis.fruit_e_shop.Ordered_items"/>
+                <action android:name="com.aalexandrakis.fruit_e_shop.OrderedItems"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-		<activity android:theme="@style/FullscreenTheme" android:name="com.aalexandrakis.fruit_e_shop.Aboutus" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
+		<activity android:theme="@style/FullscreenTheme" android:name=".AboutUs1" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.aalexandrakis.fruit_e_shop.Aboutus"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        		<activity android:theme="@style/FullscreenTheme" android:name="com.aalexandrakis.fruit_e_shop.Settings_Activity" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
+        		<activity android:theme="@style/FullscreenTheme" android:name=".SettingsActivity" android:configChanges="keyboardHidden|orientation|screenSize" android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.aalexandrakis.fruit_e_shop.Settings_Activity"/>
+                <action android:name="com.aalexandrakis.fruit_e_shop.SettingsActivity"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
