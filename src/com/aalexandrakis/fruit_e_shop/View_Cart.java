@@ -83,7 +83,7 @@ public class View_Cart extends Login  {
 			if (checkConnectivity()==false){
 				showAlertDialog("Connectivity Error", "No Internet Connection");
 			} else {
-				FinishYourOrder();
+				finishYourOrder();
 			}
 		}
 	  });
@@ -181,7 +181,8 @@ public class View_Cart extends Login  {
 		} else {
 //		    Toast.makeText(getActivity() ,resultTitle , Toast.LENGTH_SHORT).show();
 			if (resultTitle.equals("SUCCESS")){
-				showAlertDialog(getString(R.string.paymentOk), getString(R.string.payment_thank_you));
+				emptyCart();
+				Toast.makeText(viewCart.getApplicationContext(), "Your order uploaded successfully. Thank you.", Toast.LENGTH_LONG).show();
 				launchPayPalButton.updateButton();
 				finish();
 			} else {
@@ -357,12 +358,12 @@ public class View_Cart extends Login  {
   }
 	
 	
-	protected void FinishYourOrder(){
+	protected void finishYourOrder(){
 		CreateOrderAsync CreateOrderAsyncObject = new CreateOrderAsync(this);
 		CreateOrderAsyncObject.execute(Commons.URL_COMPLETE_ORDER, String.valueOf(settings.getInt("Id", 0)));
 	}
 	
-	public void EmptyCart() {
+	public void emptyCart() {
 		myCartArray.clear();
 		TextView txtCartSummary = (TextView) findViewById(R.id.txtCartSummary);
 		txtCartSummary.setText("");
@@ -380,7 +381,7 @@ public class View_Cart extends Login  {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				// TODO Auto-generated method stub
-				EmptyCart();
+				emptyCart();
 				return false;
 			}
 		});
@@ -460,8 +461,9 @@ class CreateOrderAsync extends AsyncTask<String, String, String>{
 	protected void onPostExecute(String rtnString) {
 		viewCart.pg.dismiss();
 		if (rtnString.equals("200")){
-			viewCart.EmptyCart();
+			viewCart.emptyCart();
 		    Toast.makeText(viewCart.getApplicationContext(), "Your order uploaded successfully. Thank you.", Toast.LENGTH_LONG).show();
+			viewCart.finish();
 		}
   		//viewCart.LoginRoutine(RtnString);
   		try {
