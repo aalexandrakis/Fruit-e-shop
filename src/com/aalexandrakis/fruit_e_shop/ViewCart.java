@@ -420,7 +420,7 @@ class CreateOrderAsync extends AsyncTask<String, String, String>{
 			params.add(new BasicNameValuePair("item_number" + String.valueOf(i), item.getItemCode().toString()));
 			params.add(new BasicNameValuePair("item_name" + String.valueOf(i), item.getItemDescr()));
 			params.add(new BasicNameValuePair("quantity" + String.valueOf(i), item.getItemQuantity().toString()));
-			params.add(new BasicNameValuePair("mc_gross" + String.valueOf(i), String.valueOf(item.getItemQuantity() * item.getItemPrice())));
+			params.add(new BasicNameValuePair("mc_gross_" + String.valueOf(i), String.valueOf(item.getItemQuantity() * item.getItemPrice())));
 
 			i++;
 		}
